@@ -1,0 +1,9 @@
+[alias]
+  update = pull --all -tp --stat --ff-only
+  fetch-all = fetch --all --tags --prune --prune-tags --show-forced-updates
+[user]
+  email = don@donthorp.net
+  name = Don Thorp
+[pull]
+  ff = only
+  rebase = true
