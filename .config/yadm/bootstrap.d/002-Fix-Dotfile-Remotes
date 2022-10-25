@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+yadm remote -v | grep "git@github.com:donthorp/dotfiles-yadm.git" > /dev/null
+
+if [ $? -eq 1 ]; then
+
+  echo "Changing yadm repo remote to SSH"
+  yadm remote set-url origin git@github.com:donthorp/dotfiles-yadm.git
+
+fi
