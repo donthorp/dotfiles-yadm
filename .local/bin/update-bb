@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+
+bb --version | true
+curl -s https://raw.githubusercontent.com/babashka/babashka/master/install > /tmp/bbinstall
+chmod 755 /tmp/bbinstall
+sudo /tmp/bbinstall --dir /opt/bb
+rm /tmp/bbinstall
+bb --version

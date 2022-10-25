@@ -1,0 +1,72 @@
+#! /usr/bin/env bb
+
+(ns hdmi-audio
+	(:require
+		[clojure.java.shell :as shell :refer [sh]]
+		[clojure.string :as str]
+	)
+)
+
+(def restore-device-cmd "cat /etc/pulse/default.pa | grep \"load-module module-stream-restore restore_device=false\" > /dev/null")
+
+(def restore-device-help [
+
+	"You may need to edit /etc/pulse/default.pa and add change:"
+	"  'load-module module-stream-restore' to"
+	"  'load-module module-stream-restore restore_device=false'"
+	""
+	"  https://askubuntu.com/questions/71863/how-to-change-pulseaudio-sink-with-pacmd-set-default-sink-during-playback/72076#72076"
+	""
+	]
+)
+
+(defn check-pa-restore-device
+	"Check that module-stream-restore has restore_device=false"
+	[]
+
+	(if (not= (:exit (sh "bash" "-c" restore-device-cmd) 0))
+		(doseq [l restore-device-help]
+			(println l)
+		)
+	)
+)
+
+(defn get-hdmi-channel
+	"Query for the channel that is hdmi"
+	[]
+
+	(str/trim-newline (:out (sh "bash" "-c" "pactl list short sinks | grep hdmi-stereo | cut -f 1")))
+)
+
+(defn get-all-channels
+	"Get a vector of all the channel IDs"
+	[]
+
+	(str/split-lines (:out (sh "bash" "-c" "pactl list short sinks | cut -f 1")))
+)
+
+(defn get-non-hdmi-channels
+	"Filter out the hdmi channel"
+	[]
+	(let [chan (get-hdmi-channel) chans (get-all-channels)]
+		(filter #(not= chan %) chans)
+	)
+)
+
+(do
+	(check-pa-restore-device)
+	(let [chan (get-hdmi-channel) chans (get-non-hdmi-channels)]
+
+		(println "Suspending all channels")
+		(doseq [c chans]
+			(sh "bash" "-c" (str "pactl suspend-sink " c " true"))
+		)
+
+		(println (:out (sh "bash" "-c" "pactl list short sinks | cut -f 1,2,5")))
+
+		(println "Setting default channel to" chan)
+		(sh "bash" "-c" (str "pactl suspend-sink " chan " false"))
+		(sh "bash" "-c" (str "pactl set-default-sink " chan))
+		(println)
+	)
+)
