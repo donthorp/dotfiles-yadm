@@ -1,0 +1,22 @@
+#! /usr/bin/env bash
+
+VENDOR=`sudo lshw -class system | grep vendor | cut -d: -f 2 | sed -e "s/ //g"
+`
+
+function install() {
+
+  apt list --installed 2>/dev/null | cut -d/ -f 1 | grep $1 > /dev/null
+
+  if [ $? -eq 1 ]; then
+    echo "Installing $1"
+    sudo apt install -y $1
+  fi
+}
+
+if [ "$VENDOR" = "QEMU" ]; then 
+  echo "Virtual Environment Detected"
+
+  install "spice-vdagent" 
+  install "spice-webdavd" 
+
+fi
