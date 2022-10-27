@@ -22,4 +22,9 @@
     - fonts-firacode
     - jq
     - lsb-release
- 
+    - snapd 
+
+- name: Install Snaps
+  community.general.snap:
+    name:
+      - starship
