@@ -7,9 +7,13 @@ which ansible > /dev/null
 if [ $? -eq 1 ]; then
   echo "Installing Ansible"
 
-sudo apt update
-sudo apt install -y software-properties-common
-sudo add-apt-repository --yes --update ppa:ansible/ansible
-sudo apt install ansible -y
+  sudo apt update
+  sudo apt install -y software-properties-common
+  sudo add-apt-repository --yes --update ppa:ansible/ansible
+  sudo apt install ansible -y
 
 fi
+
+# Make sure that the ansible galaxy is up to date. Run every time for now
+ 
+ansible-galaxy install -r ~/.config/dotfiles/requirements.yml
