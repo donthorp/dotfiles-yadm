@@ -1,0 +1,4 @@
+---
+- name: "Don Dotfiles Host"
+  hosts: localhost
+  connection: local 
