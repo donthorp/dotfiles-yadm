@@ -1,0 +1,10 @@
+---
+# tasks file for base
+
+- name: Install Base Packages
+  apt: name={{item}}
+  with_items:
+    - ack 
+    - ca-certificates 
+    - curl
+    - dos2unix 

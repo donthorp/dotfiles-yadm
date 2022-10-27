@@ -1,4 +1,7 @@
 ---
 - name: "Don Dotfiles Host"
   hosts: localhost
-  connection: local 
+  connection: local
+  become: true
+  roles:
+    - base
