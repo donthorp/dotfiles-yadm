@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   become: true
+  vars:
+    neovim_nvim_version: v0.8.0
   roles:
     - base
     - neovim

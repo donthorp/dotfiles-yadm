@@ -15,5 +15,10 @@ if [ $? -eq 1 ]; then
 fi
 
 # Make sure that the ansible galaxy is up to date. Run every time for now
- 
-ansible-galaxy install -r ~/.config/dotfiles/requirements.yml
+
+REQUIREMENTS=~/.config/dotfiles/requirements.yml
+
+if [ -f $REQUIREMENTS ]; then
+  echo "Installing Ansible Galaxy Requirements"
+  ansible-galaxy install -r ~/.config/dotfiles/requirements.yml
+fi
