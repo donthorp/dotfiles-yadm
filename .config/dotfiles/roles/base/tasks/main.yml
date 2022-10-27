@@ -1,10 +1,25 @@
 ---
 # tasks file for base
 
+- name: Update APT repository if needed
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: safe
+    state: latest
+
 - name: Install Base Packages
-  apt: name={{item}}
-  with_items:
+  ansible.builtin.apt: 
+    state: latest
+    pkg: 
     - ack 
     - ca-certificates 
     - curl
-    - dos2unix 
+    - dos2unix
+    - dirmngr
+    - gawk
+    - git-extras
+    - gnupg
+    - fonts-firacode
+    - jq
+    - lsb-release
+ 
