@@ -23,9 +23,11 @@
     - jq
     - lsb-release
     - snapd 
+  tags: base
 
 - name: Install Snaps
   community.general.snap:
     name:
       - htop
       - starship
+  tags: base
