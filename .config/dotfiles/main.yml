@@ -9,3 +9,12 @@
     - base
     - neovim
   tags: base
+
+- name: DevOps Tooling
+  hosts: localhost
+  connection: local
+  become: true
+  roles:
+    - terraform
+  tags: tooling-devops
+

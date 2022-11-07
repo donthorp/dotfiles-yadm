@@ -1,0 +1,8 @@
+---
+# https://docs.ansible.com/ansible/latest/user_guide/collections_using.html
+
+# Fork of darkwizard242.terraform
+- src: https://github.com/donthorp/ansible-role-terraform.git
+  version: debian-install-simplification
+  name: terraform
+
