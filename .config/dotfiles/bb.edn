@@ -1,0 +1,9 @@
+;; Helper tasks for working with Ansible
+
+{:tasks
+ {
+  init {:doc "Pull requirements from Ansible Galaxy"
+        :task (shell "ansible-galaxy install -r requirements.yml")}
+  
+  check {:doc "Check main playbook"
+         :task (shell "ansible-playbook --check main.yml")}}}
