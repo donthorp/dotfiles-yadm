@@ -117,14 +117,13 @@ if ! shopt -oq posix; then
 fi
 
 export EDITOR=nvim
-
 export SECRETS_DIR=~/.local/secrets
 
 if [ ! -d $SECRETS_DIR ]; then
   mkdir -p $SECRETS_DIR
 fi
 
-SECRETS=$(ls $SECRETS_DIR/* 2>&1 > /dev/null)
+SECRETS=$(ls $SECRETS_DIR/* 2>/dev/null)
 if [ $? -eq 0 ]; then
   echo "Loading local secrets..."
   for SECRET in $SECRETS; do
@@ -171,4 +170,10 @@ fi
 if [ -d /opt/bb ] ; then
   PATH=/opt/bb:$PATH
 fi
+
+### Find a better solution for items below
+
+## Terraform
+
+export TF_CLI_CONFIG_FILE=$HOME/.config/terraform/terraformrc
 
