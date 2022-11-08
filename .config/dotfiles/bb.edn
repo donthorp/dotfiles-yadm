@@ -1,7 +1,11 @@
 ;; Helper tasks for working with Ansible
 
 {:tasks
- {
+ {:requires ([babashka.fs :as fs])
+
+  clean {:doc "Clean up temporary files"
+         :task (when (fs/directory? ".ansible") (fs/delete-tree ".ansible"))}
+
   init {:doc "Pull requirements from Ansible Galaxy"
         :task (shell "ansible-galaxy install -r requirements.yml")}
   
