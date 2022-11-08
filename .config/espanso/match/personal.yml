@@ -1,0 +1,11 @@
+# Configuration for Tradeswell specific expansions
+
+matches:
+  # Readwise Dashboard
+  - trigger: "!rw"
+    replace: "https://readwise.io/dashboard"
+
+  # Google Meet Shortcuts
+  - trigger: "!dk"
+    replace: "don-karen"
+

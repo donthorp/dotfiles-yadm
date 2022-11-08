@@ -1,0 +1,35 @@
+# Configuration for Tradeswell specific expansions
+
+matches:
+  # Google Meet Shortcuts
+  - trigger: "!dj"
+    replace: "don-jesse"
+  - trigger: "!do"
+    replace: "don-opie"
+
+  # Tradeswell Sites
+  - trigger: "!1pw"
+    replace: "https://tradeswell.1password.com/home"
+  - trigger: "!jira"
+    replace: "https://tradeswell.atlassian.net/jira/your-work"
+  - trigger: "!zdbypass"
+    replace: "https://tradeswell.zendesk.com/access/sso_bypass"
+  - trigger: "!hc"
+    replace: "https://help.tradeswell.com/hc/en-us"
+  - trigger: "!hd"
+    replace: "https://helpdesk.tradeswell.com/hc/en-us/requests/new?ticket_form_id=5355357580059"
+  - trigger: "!msadmin"
+    replace: "https://admin.microsoft.com/adminportal/home?#/homepage"
+
+  # Github Queries
+  - trigger: "!gh-my-reviews"
+    replace: "https://github.com/search?q=org%3ATradeswell+state%3Aopen+type%3Apr+review-requested%3A%40me"
+
+  # JIRA Ticket Link
+  - trigger: "!!j"
+    replace: "[{{form1.issue}}](https://tradeswell.atlassian.net/browse/{{form1.issue}})"
+    vars:
+      - name: form1
+        type: form
+        params:
+          layout: Issue Key [[issue]]
