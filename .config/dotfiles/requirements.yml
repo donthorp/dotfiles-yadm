@@ -6,3 +6,7 @@
   version: debian-install-simplification
   name: terraform
 
+# Fork of rjsheperd/ansible-role-babashka
+- src: https://github.com/donthorp/ansible-role-babashka.git
+  version: personal-main
+  name: babashka

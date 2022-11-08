@@ -8,6 +8,7 @@
   roles:
     - base
     - neovim
+    - babashka
   tags: base
 
 - name: DevOps Tooling
