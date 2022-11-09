@@ -33,3 +33,8 @@ matches:
         type: form
         params:
           layout: Issue Key [[issue]]
+
+  # Observe Usage Dashboard
+  - trigger: "!ob"
+    replace: "https://108570735892.observeinc.com/workspace/41084314/dashboard/Usage-Dashboard-41123918?s=16023-amqhhz3v#use_%F0%9F%94%97_to_share"
+
