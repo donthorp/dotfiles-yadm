@@ -51,6 +51,10 @@ require('legendary').setup({
   include_legendary_cmds = true,
   most_recent_item_at_top = true,
   keymaps = {
+    -- Legendary
+    { '<C-p>', require('legendary').find, description = "Command Palette", mode = {
+      'n', 'i', 'x'}},
+
     -- Telescope
     { '<leader>ff', '<cmd>Telescope find_files<Enter>', description = 'Find files'},
     { '<leader>fg', '<cmd>Telescope live_grep<Enter>', description = 'Live grep'},
