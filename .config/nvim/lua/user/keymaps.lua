@@ -11,9 +11,10 @@ local term_opts = {
 local km = vim.api.nvim_set_keymap
 
 -- Remap space as leader key
--- km("n", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
+
+km("n", "<Space>", "<Nop>", opts)
 
 -- Normal Mode
 -- Easier window navigation
@@ -45,7 +46,18 @@ km("n", "<leader>dr", ":DBUIiRenameBuffer<CR>", opts)
 km("n", "<leader>dl", ":DBUILastQueryInfo<CR>", opts)
 
 -- Legendary Configurations
-require('legendary').setup()
+require('legendary').setup({
+  include_builtin = true,
+  include_legendary_cmds = true,
+  most_recent_item_at_top = true,
+  keymaps = {
+    -- Telescope
+    { '<leader>ff', '<cmd>Telescope find_files<Enter>', description = 'Find files'},
+    { '<leader>fg', '<cmd>Telescope live_grep<Enter>', description = 'Live grep'},
+    { '<leader>fb', '<cmd>Telescope buffers<Enter>', description = 'View buffers'},
+    { '<leader>fh', '<cmd>Telescope help_tags<Enter>', description = 'Help'},
+  }
+})
 
 -- Which Key Configurations
 local wk = require("which-key")
