@@ -10,4 +10,8 @@
         :task (shell "ansible-galaxy install -r requirements.yml")}
   
   check {:doc "Check main playbook"
-         :task (shell "ansible-playbook --check main.yml")}}}
+         :task (shell "ansible-playbook --check main.yml")}
+ 
+  install-base {:doc "Install base packages"
+                :task (shell "ansible-playbook main.yml --tags base")}
+ }}
