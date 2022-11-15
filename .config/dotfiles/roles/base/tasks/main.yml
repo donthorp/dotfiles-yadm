@@ -19,7 +19,6 @@
     - gawk
     - git-extras
     - gnupg
-    - fonts-firacode
     - inetutils-traceroute
     - jq
     - lsb-release
