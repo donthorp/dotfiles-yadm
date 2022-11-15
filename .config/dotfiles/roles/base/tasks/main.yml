@@ -23,6 +23,7 @@
     - inetutils-traceroute
     - jq
     - lsb-release
+    - ripgrep
     - snapd 
   tags: base
 
