@@ -2,6 +2,10 @@
 --
 -- https://github.com/LunarVim/Neovim-from-scratch was the source that used this technique
 
+-- Disable Nerd Tree (Using nvim-tree.lua instead)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Visual Settings
 
 local set = vim.opt

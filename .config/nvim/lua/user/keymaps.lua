@@ -55,11 +55,12 @@ require('legendary').setup({
     { '<C-p>', require('legendary').find, description = "Command Palette", mode = {
       'n', 'i', 'x'}},
 
-    -- Telescope
-    { '<leader>ff', '<cmd>Telescope find_files<Enter>', description = 'Find files'},
-    { '<leader>fg', '<cmd>Telescope live_grep<Enter>', description = 'Live grep'},
-    { '<leader>fb', '<cmd>Telescope buffers<Enter>', description = 'View buffers'},
-    { '<leader>fh', '<cmd>Telescope help_tags<Enter>', description = 'Help'},
+    -- Telescope/NvimTree
+    {'<leader>ff', '<cmd>Telescope find_files<CR>', description = 'Find files'},
+    {'<leader>fg', '<cmd>Telescope live_grep<CR>', description = 'Live grep'},
+    {'<leader>fb', '<cmd>Telescope buffers<CR>', description = 'View buffers'},
+    {'<leader>fh', '<cmd>Telescope help_tags<CR>', description = 'Help'},
+    {'<leader>ft', '<cmd>NvimTreeToggle<CR>', description = 'Toggle NvimTree'}
   }
 })
 

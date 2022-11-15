@@ -92,6 +92,18 @@ return packer.startup(function(use)
   use { 'tpope/vim-dadbod' }
   use { 'kristijanhusak/vim-dadbod-ui' }
 
+  -- Nvim Tree
+  -- https://github.com/nvim-tree/nvim-tree.lua
+
+  use 'nvim-tree/nvim-web-devicons'
+
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons' -- optional, for file icons
+    }
+}
+
   vim.g.db_ui_save_location = '~/.config/db-ui'
 
   -- Automatically set up your configuration after cloning packer.nvim
