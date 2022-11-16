@@ -92,6 +92,7 @@ return packer.startup(function(use)
   use { 'tpope/vim-dadbod' }
   use { 'kristijanhusak/vim-dadbod-ui' }
 
+
   -- Nvim Tree
   -- https://github.com/nvim-tree/nvim-tree.lua
 
@@ -102,9 +103,14 @@ return packer.startup(function(use)
     requires = {
       'nvim-tree/nvim-web-devicons' -- optional, for file icons
     }
-}
+  }
 
-  vim.g.db_ui_save_location = '~/.config/db-ui'
+  -- Toggle Term
+  -- https://github.com/akinsho/toggleterm.nvim
+  
+  use "akinsho/toggleterm.nvim"
+
+vim.g.db_ui_save_location = '~/.config/db-ui'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
