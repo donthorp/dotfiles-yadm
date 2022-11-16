@@ -7,6 +7,7 @@ alias clear-dns-cache='sudo systemd-resolve --flush-caches'
 alias cz=chezmoi
 alias espanso-reregister='espanso service unregister && espanso service register'
 alias my-ip="curl https://api.ipify.org"
+alias update-git-repos='for v in $(ls -1d *); do echo $(cd $v; echo $v; ! git pull; exit 0); done'
 
 # USG Status
 alias 'usg-status'="ssh -t 10.10.0.1 \"vbash -ic 'show load-balance status; show load-balance watchdog'\""
