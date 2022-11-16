@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+#
+# This script requires the Github CLI which you can install with brew install gh
+# You'll need to make sure to authorize gh before using this script. You MUST use
+# ssh and not https. To authorize use gh auth login.
+
+gh repo list Tradeswell --limit 300 | grep ^Tradeswell | cut -f 1 | sed -e 's/Tradeswell\///' | sort \
+    | xargs -n 1 -I % git clone git@github.com:Tradeswell/% repos/% 
