@@ -1,0 +1,13 @@
+#! /usr/bin/env bash
+
+MOUNT=`realpath .`
+
+if [[ "$1" != "" ]]; then
+  MOUNT=`dirname $(realpath $MOUNT)`
+fi
+
+docker compose -f $HOME/.local/bin/src/grip/docker-compose.yml \
+  run --rm \
+  -v $MOUNT:/usr/src/app:ro \
+  grip grip `basename $1`
+

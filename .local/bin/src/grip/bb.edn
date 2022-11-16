@@ -1,0 +1,17 @@
+;; Helper tasks for using/building grip
+
+{:tasks
+ {:requires ([babashka.fs :as fs])
+
+  build {:doc "Build Docker Image dst/grip"
+         :task (shell "docker build --pull --tag dst/grip .")}
+  
+  clean {:doc "Remove Docker Image"
+         :task (shell "docker rmi dst/grip")}
+
+  run {:doc "Run in interactive mode"
+       :task 
+             (let [pwd (fs/cwd)
+                   cmd (format "docker compose run -ti --rm -v %s:/usr/src/app:ro grip" pwd)]
+                (shell cmd))}
+ }}
