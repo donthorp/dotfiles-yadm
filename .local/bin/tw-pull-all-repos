@@ -5,4 +5,4 @@
 # ssh and not https. To authorize use gh auth login.
 
 gh repo list Tradeswell --limit 300 | grep ^Tradeswell | cut -f 1 | sed -e 's/Tradeswell\///' | sort \
-    | xargs -n 1 -I % git clone git@github.com:Tradeswell/% repos/% 
+    | xargs -n 1 -I % git clone git@github.com:Tradeswell/% % 
