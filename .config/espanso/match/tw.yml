@@ -20,6 +20,8 @@ matches:
     replace: "https://helpdesk.tradeswell.com/hc/en-us/requests/new?ticket_form_id=5355357580059"
   - trigger: "!msadmin"
     replace: "https://admin.microsoft.com/adminportal/home?#/homepage"
+  - trigger: "!ldarkly"
+    replace: "https://app.launchdarkly.com/tw-platform-amplify/production/features"
 
   # Github Queries
   - trigger: "!gh-my-reviews"
