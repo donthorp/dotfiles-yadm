@@ -25,6 +25,7 @@ alias svenv="source venv/bin/activate"
 
 # Terraform
 alias tf="/usr/bin/env terraform"
+alias tf-ro="tf init && tf plan --refresh-only"
 
 # Tradeswell 
 alias tw-gh-my-reviews='gh search prs --review-requested="@me" --sort="created" --state=open --limit=100 "org:Tradeswell"'
