@@ -5,6 +5,10 @@ matches:
   - trigger: "!rw"
     replace: "https://readwise.io/dashboard"
 
+  # Readwise Reader
+  - trigger: "!rr"
+    replace: "https://read.readwise.io/new"
+
   # Google Meet Shortcuts
   - trigger: "!dk"
     replace: "don-karen"
