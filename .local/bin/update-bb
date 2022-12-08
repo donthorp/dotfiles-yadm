@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-bb --version | true
+echo "Babaska version: " `bb --version `
 curl -s https://raw.githubusercontent.com/babashka/babashka/master/install > /tmp/bbinstall
 chmod 755 /tmp/bbinstall
 sudo /tmp/bbinstall --dir /opt/bb
