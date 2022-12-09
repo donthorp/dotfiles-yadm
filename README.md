@@ -25,7 +25,7 @@ sudo hostnamectl set-hostname hermes01
 - artemis01 - Gaming Machine - 23 Aug 2022
 - hermes01 - Development VM for new dot files
 
-## Prepare to Bootstrap
+## Bootstrap
 
 ### Install `yadm`
 
@@ -37,12 +37,13 @@ sudo apt update && sudo apt install yadm
 ```bash
 yadm clone https://github.com/donthorp/dotfiles-yadm.git
 ```
-Answer `y` to run the bootstrap
+> Answer `y` to run the bootstrap
 
-## Provision with Ansible
-
-> This will become part of bootstrap at some point. For now, I'm performing this step manually.
+## Create Keys for Github
 
 ```bash
-cd ~/.config/dotfiles
+~/.bootstrap.sh
 ```
+
+Visit [Github SSH Keys](https://github.com/settings/keys) and add the public key printed in the terminal session.
+
