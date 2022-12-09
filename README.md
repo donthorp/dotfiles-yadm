@@ -32,4 +32,10 @@ sudo hostnamectl set-hostname hermes01
 ```bash
 sudo apt update && sudo apt install yadm
 ```
+### Clone this Repository
+
+```bash
+yadm clone https://github.com/donthorp/dotfiles-yadm.git
+yadm status
+```
 
