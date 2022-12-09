@@ -36,6 +36,13 @@ sudo apt update && sudo apt install yadm
 
 ```bash
 yadm clone https://github.com/donthorp/dotfiles-yadm.git
-yadm status
 ```
+Answer `y` to run the bootstrap
 
+## Provision with Ansible
+
+> This will become part of bootstrap at some point. For now, I'm performing this step manually.
+
+```bash
+cd ~/.config/dotfiles
+```

@@ -44,5 +44,3 @@ if [ ! -f "$KEYFILE" ]; then
   
 fi
 
-
-
