@@ -20,5 +20,8 @@ REQUIREMENTS=~/.config/dotfiles/requirements.yml
 
 if [ -f $REQUIREMENTS ]; then
   echo "Installing Ansible Galaxy Requirements"
+  echo "CD: $(dirname $REQUIREMENTS)"
+  cd $(dirname $REQUIREMENTS)
   ansible-galaxy install -r ~/.config/dotfiles/requirements.yml
+  cd -
 fi
