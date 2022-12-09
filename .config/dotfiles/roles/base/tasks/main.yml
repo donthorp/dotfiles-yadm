@@ -33,3 +33,10 @@
       - starship
   tags: base
 
+- name: Install Classic Snaps
+  community.general.snap:
+    name:
+      - espanso
+    classic: true
+  tags: base
+
