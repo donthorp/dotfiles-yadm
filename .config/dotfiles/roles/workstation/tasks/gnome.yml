@@ -10,6 +10,7 @@
   include_role:
     name: gnome
   vars:
+    gnome_user: "{{ ansible_env.USER }}"
     gnome_gsettings:
       - schema: org.gnome.mutter
         key: center-new-windows
