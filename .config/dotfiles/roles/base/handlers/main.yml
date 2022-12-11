@@ -1,0 +1,6 @@
+---
+
+# From https://github.com/jahrik/ansible-nvim
+- name: fc-cache
+  become: false
+  command: fc-cache -f ~/.local/share/fonts/
