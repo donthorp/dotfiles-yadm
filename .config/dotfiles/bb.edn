@@ -14,4 +14,7 @@
  
   install-base {:doc "Install base packages"
                 :task (shell "ansible-playbook main.yml --tags base")}
+
+  install-workstation {:doc "Install workstation packages"
+                :task (shell "ansible-playbook main.yml --tags=base,workstation")}
  }}

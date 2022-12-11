@@ -9,7 +9,6 @@
     - base
     - neovim
     - babashka
-    - workstation
   tags: base
 
 - name: DevOps Tooling
@@ -20,3 +19,10 @@
     - terraform
   tags: tooling-devops
 
+- name: Workstation
+  hosts: localhost
+  connection: local
+  become: false
+  roles:
+    - workstation
+  tags: workstation
