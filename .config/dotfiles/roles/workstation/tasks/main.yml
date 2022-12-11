@@ -1,14 +1,16 @@
 ---
 # tasks file for workstationj
 
-- name: Install Gnome Configuration Tools
+- name: Install GNOME Requirements
   ansible.builtin.apt: 
     state: latest
     pkg: 
       - dconf-editor
+      - xclip
+      - xsel
 
 - name: Include GNOME/DCONF Settings
-  include_tasks: ./roles/workstation/tasks/dconf.yml
+  include_tasks: ./roles/workstation/tasks/gnome.yml
 
 - name: Install Discord
   become: false

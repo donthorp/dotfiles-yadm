@@ -12,3 +12,7 @@ roles:
     version: personal-main
     name: babashka
 
+  - src: https://github.com/PeterMosmans/ansible-role-customize-gnome.git
+    version: master
+    name: gnome
+

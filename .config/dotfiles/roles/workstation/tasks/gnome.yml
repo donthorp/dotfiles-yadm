@@ -1,0 +1,38 @@
+---
+# configuration settings for GNOME/Pop OS
+# TODO: fix to detect different environments
+
+- name: Install Python Module - psutil for dconf tasks
+  ansible.builtin.pip:
+    name: psutil
+
+- name: Customize Gnome
+  include_role:
+    name: gnome
+  vars:
+    gnome_gsettings:
+      - schema: org.gnome.mutter
+        key: center-new-windows
+        value: "true"
+        state: present
+
+      # Screen Shots
+      - schema: org.gnome.shell.keybindings 
+        key: screenshot
+        value: '"[''<Primary><Shift>Print'', ''<Shift><Alt>dollar'']"'
+        state: present
+      - schema: org.gnome.shell.keybindings
+        key: screenshot-window
+        value: '"[''<Primary><Alt>Print'', ''<Shift><Alt>percent'']"'
+        state: present
+      - schema: org.gnome.shell.keybindings
+        key: screenshot
+        value: '"[''Print'', ''<Shift><Alt>dollar'']"'
+        state: present
+
+      # Desktop
+      - schema: org.gnome.desktop.wm.keybindings
+        key: activate-window-menu
+        value: '"[''<Super>space'']"'
+        state: present
+
