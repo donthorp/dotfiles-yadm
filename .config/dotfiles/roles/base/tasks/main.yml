@@ -1,11 +1,10 @@
 ---
 # tasks file for base
 
-#- name: Update APT repository if needed
-#  ansible.builtin.apt:
-#    update_cache: true
-#    upgrade: safe
-#    state: latest
+- name: Update APT repository if needed
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
 
 - name: Install Base Packages
   ansible.builtin.apt: 
