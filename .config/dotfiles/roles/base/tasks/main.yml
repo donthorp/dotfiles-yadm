@@ -21,6 +21,7 @@
     - inetutils-traceroute
     - jq
     - lsb-release
+    - python3-pip
     - ripgrep
     - snapd 
   tags: base
