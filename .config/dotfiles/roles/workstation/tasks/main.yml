@@ -5,6 +5,7 @@
   ansible.builtin.apt: 
     state: latest
     pkg: 
+      - dbus-x11
       - dconf-editor
       - xclip
       - xsel
