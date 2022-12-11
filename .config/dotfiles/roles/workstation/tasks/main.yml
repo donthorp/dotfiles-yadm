@@ -2,6 +2,7 @@
 # tasks file for workstationj
 
 - name: Install GNOME Requirements
+  become: true
   ansible.builtin.apt: 
     state: latest
     pkg: 
