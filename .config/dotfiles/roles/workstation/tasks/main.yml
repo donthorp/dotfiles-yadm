@@ -1,6 +1,12 @@
 ---
 # tasks file for workstationj
 
+- name: Install Gnome Configuration Tools
+  ansible.builtin.apt: 
+    state: latest
+    pkg: 
+      - dconf-editor
+
 - name: Install Discord
   become: false
   community.general.flatpak: 
