@@ -9,6 +9,7 @@
     - base
     - neovim
     - babashka
+    - workstation
   tags: base
 
 - name: DevOps Tooling
