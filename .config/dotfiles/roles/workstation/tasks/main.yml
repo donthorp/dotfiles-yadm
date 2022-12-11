@@ -7,6 +7,9 @@
     pkg: 
       - dconf-editor
 
+- name: Include GNOME/DCONF Settings
+  include_tasks: ./roles/workstation/tasks/dconf.yml
+
 - name: Install Discord
   become: false
   community.general.flatpak: 

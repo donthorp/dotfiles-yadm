@@ -1,0 +1,44 @@
+---
+# configuration settings for GNOME/Pop OS
+# TODO: fix to detect different environments
+
+#- name: 
+#  community.general.dconf:
+#    key: ""
+#    value:
+#    state: present
+
+- name: Install Python Module - psutil for dconf tasks
+  ansible.builtin.pip:
+    name: psutil
+
+- name: Set GNOME Screen Shot for Clipping Keybinding 
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/area-screenshot-clip"
+    value: "['<Primary><Shift>Print', '<Shift><Alt>dollar']"
+    state: present
+
+- name: Set GNOME Screen Shot for Window Clipping Keybinding
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/window-screenshot-clip "
+    value: "['<Primary><Alt>Print', '<Shift><Alt>percent']"
+    state: present
+
+- name: Set GNOME Screen Shot UI Keybinding
+  community.general.dconf:
+    key: "/org/gnome/shell/keybindings/show-screenshot-ui"
+    value: "['Print', '<Shift><Alt>dollar']"
+    state: present
+
+- name: Set GNOME Center Windows on Launch 
+  community.general.dconf:
+    key: "/org/gnome/mutter/center-new-windows"
+    value: "true"
+    state: present
+
+- name: Set GNOME Activate Window Menu to SUPER-Space
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/activate-window-menu"
+    value: "['<Super>space']"
+    state: present
+
