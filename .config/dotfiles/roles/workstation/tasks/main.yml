@@ -24,3 +24,6 @@
 - name: Configure and Install Wavebox
   include_tasks: ./roles/workstation/tasks/wavebox.yml
 
+- name: Configure and Install ULauncher
+  include_tasks: ./roles/workstation/tasks/ulauncher.yml
+
