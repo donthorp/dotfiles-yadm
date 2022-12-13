@@ -1,5 +1,5 @@
 ---
-# tasks file for workstationj
+# tasks file for workstation
 
 - name: Install GNOME Requirements
   become: true
@@ -20,4 +20,7 @@
     name: com.discordapp.Discord
     method: user
     state: present 
+
+- name: Configure and Install Wavebox
+  include_tasks: ./roles/workstation/tasks/wavebox.yml
 

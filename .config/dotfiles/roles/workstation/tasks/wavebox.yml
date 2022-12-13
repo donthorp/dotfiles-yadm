@@ -1,0 +1,20 @@
+---
+- name: Add Wavebox Repository Key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://wavebox.io/dl/client/repo/archive.key
+    state: present
+
+- name: Add Wavebox Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.wavebox.app/stable/linux/deb/ amd64/"
+    filename: wavebox-stable
+
+- name: Install Wavebox
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    pkg:
+      - wavebox
+
