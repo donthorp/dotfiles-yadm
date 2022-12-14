@@ -4,6 +4,7 @@
   become: true
   ansible.builtin.apt_repository:
     repo: ppa:agornostal/ulauncher
+    update_cache: false
 
 - name: Install Ulauncher
   become: true

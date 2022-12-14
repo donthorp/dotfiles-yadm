@@ -27,3 +27,10 @@
 - name: Configure and Install ULauncher
   include_tasks: ./roles/workstation/tasks/ulauncher.yml
 
+- name: Install Obsidian
+  become: false
+  community.general.flatpak:
+    name: md.obsidian.Obsidian
+    method: user
+    state: present
+
