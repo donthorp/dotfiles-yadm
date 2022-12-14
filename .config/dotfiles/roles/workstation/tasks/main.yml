@@ -21,6 +21,12 @@
     method: user
     state: present 
 
+- name: Install Slack 
+  become: true
+  ansible.builtin.apt: 
+    state: latest
+    pkg: slack-desktop 
+
 - name: Configure and Install Wavebox
   include_tasks: ./roles/workstation/tasks/wavebox.yml
 
