@@ -40,3 +40,6 @@
     method: user
     state: present
 
+- name: DBeaver
+  include_tasks: ./roles/workstation/tasks/dbeaver.yml
+

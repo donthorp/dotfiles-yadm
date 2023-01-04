@@ -1,0 +1,9 @@
+---
+
+- name: Install DBeaver Community
+  become: false
+  community.general.flatpak:
+    name: io.dbeaver.DBeaverCommunity
+    method: user
+    state: present
+
