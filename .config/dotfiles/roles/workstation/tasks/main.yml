@@ -14,6 +14,12 @@
 - name: Include GNOME/DCONF Settings
   include_tasks: ./roles/workstation/tasks/gnome.yml
 
+- name: Install mpg123
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    pkg: mpg123
+
 - name: Install Discord
   become: false
   community.general.flatpak: 
