@@ -1,0 +1,30 @@
+#! /usr/bin/env bash
+
+# Author: Don Thorp
+# Created: 17 Jan 2023
+
+AWS_CONFIG_DIR="$HOME/.aws"
+
+DOCKER_SRC_DIR="$HOME/.local/bin/src/aws"
+DOCKER_IMAGE_TAG="myaws:latest"
+
+# If the ~/.aws directory does not exist, create it so that it has the correct permissions before running the docker container
+
+if [ ! -d "$AWS_CONFIG_DIR" ]; then
+  mkdir "$AWS_CONFIG_DIR"
+  echo "Created $AWS_CONFIG_DIR"
+fi
+
+# If the the docker image $DOCKER_IMAGE_TAG doesn't exist, we need to create it first
+
+docker image inspect $DOCKER_IMAGE_TAG > /dev/null
+
+if [ $? -ne 0 ]; then
+  echo "Building Docker Image..."
+  docker build --rm --tag $DOCKER_IMAGE_TAG $DOCKER_SRC_DIR
+fi
+
+# Finally run the command
+
+docker run --rm -ti --user "$(id -u):$(id -g)" -v ~/.aws:/root/.aws -v $(pwd):/aws $DOCKER_IMAGE_TAG "$@"
+

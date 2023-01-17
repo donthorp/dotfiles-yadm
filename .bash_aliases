@@ -1,6 +1,10 @@
 #! /usr/bin/env bash
 
-alias aws='docker run --rm -ti -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
+# 20230117 - Commenting out the aws via docker alias because it doesn't correctly handle user:group
+#            Built ~/.local/bin/aws script to handle the issue.
+#
+#alias aws='docker run --rm -ti --user $(id -u):$(id -g) -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
+
 alias play-all-done='mpg123 -q ~/.local/share/sounds/interface-124464.mp3'
 
 alias bb-nrepl='bb nrepl-server 127.0.0.1:1667'
