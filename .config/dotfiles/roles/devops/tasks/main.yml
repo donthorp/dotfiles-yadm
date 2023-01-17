@@ -1,0 +1,11 @@
+---
+# Tasks for DevOps tooling
+
+- name: Install Kubectl
+  become: true
+  community.general.snap:
+    name:
+      - kubectl
+    classic: true
+  tags: devops
+

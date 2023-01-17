@@ -15,6 +15,9 @@
   install-base {:doc "Install base packages"
                 :task (shell "ansible-playbook main.yml --tags base")}
 
+  install-devops {:doc "Install DevOps related tooling"
+                  :task (shell "ansible-playbook main.yml --tags base,devops")}
+
   install-workstation {:doc "Install workstation packages"
                 :task (shell "ansible-playbook main.yml --tags=base,workstation")}
  }}
