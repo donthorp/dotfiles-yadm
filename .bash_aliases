@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 
 alias aws='docker run --rm -ti -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
+alias play-all-done='mpg123 -q ~/.local/share/sounds/interface-124464.mp3'
+
 alias bb-nrepl='bb nrepl-server 127.0.0.1:1667'
 alias bb-repl='rlwrap bb repl'
 alias clear-dns-cache='sudo systemd-resolve --flush-caches'
