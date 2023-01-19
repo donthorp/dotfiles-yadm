@@ -26,5 +26,11 @@ fi
 
 # Finally run the command
 
-docker run --rm -ti --user "$(id -u):$(id -g)" -v ~/.aws:/root/.aws -v $(pwd):/aws $DOCKER_IMAGE_TAG "$@"
+docker run --rm -ti --user "$(id -u):$(id -g)" \
+  --env AWS_DEFAULT_REGION \
+  --env AWS_REGION \
+  --env AWS_SECRET_ACCESS_KEY \
+  --env AWS_ACCESS_KEY_ID \
+  -v ~/.aws:/root/.aws -v $(pwd):/aws \
+  $DOCKER_IMAGE_TAG "$@"
 
