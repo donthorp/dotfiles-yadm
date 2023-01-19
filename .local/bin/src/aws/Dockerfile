@@ -12,10 +12,11 @@ RUN apt update \
   && apt upgrade -y \
   && apt install -y less groff \
   && apt autoremove \
-  && adduser awsuser -q
+  && adduser awsuser -q \
+  && mkdir /home/awsuser/.aws
 COPY --from=installer /usr/local/aws-cli/ /usr/local/aws-cli/
 COPY --from=installer /aws-cli-bin/ /usr/local/bin/
 USER awsuser:awsuser
-WORKDIR /aws
+WORKDIR /home/awsuser
 ENTRYPOINT ["/usr/local/bin/aws"]
 
