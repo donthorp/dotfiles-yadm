@@ -24,9 +24,15 @@ if [ $? -ne 0 ]; then
   docker build --rm --tag $DOCKER_IMAGE_TAG $DOCKER_SRC_DIR
 fi
 
+# Determine if we're in an interactive terminal or not and configure Docker accordingly
+TTY="-t"
+if [[ $- == *i* ]]; then
+  TTY="${TTY}i"
+fi
+
 # Finally run the command
 
-docker run --rm -ti --user "$(id -u):$(id -g)" \
+docker run --rm $TTY --user "$(id -u):$(id -g)" \
   --env AWS_DEFAULT_REGION \
   --env AWS_REGION \
   --env AWS_PROFILE \
