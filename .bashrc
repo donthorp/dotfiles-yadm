@@ -171,6 +171,11 @@ if [ -d /opt/bb ] ; then
   PATH=/opt/bb:$PATH
 fi
 
+# set PATH so it include Kubernetes related tools in /opt/kube
+if [ -d /opt/kube ]; then
+  PATH=/opt/kube:$PATH
+fi
+
 ### Find a better solution for items below
 
 ## Terraform

@@ -35,6 +35,7 @@ alias tf-ro="tf init && tf plan --refresh-only"
 alias tack="ack --ignore-dir=.terraform"
 
 # Tradeswell 
+alias tw-aws="source $HOME/.local/bin/tw-aws.sh"
 alias tw-gh-my-reviews='gh search prs --review-requested="@me" --sort="created" --state=open --limit=100 "org:Tradeswell"'
 alias tw-gh-repos="gh repo list Tradeswell --limit 100 | grep ^Tradeswell | cut -f 1 | sed -e 's/Tradeswell\///' | sort"
 alias tw-gh-settings-all="tw-gh-repos | xargs -n 1 -I % echo - \[ \] \[%\]\(https://github.com/Tradeswell/%/settings\) | pbcopy"

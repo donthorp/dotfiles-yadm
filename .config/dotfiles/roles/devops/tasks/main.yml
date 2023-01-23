@@ -9,3 +9,27 @@
     classic: true
   tags: devops
 
+- name: Check if kubectx has already been installed
+  become: true
+  stat:
+    path: "/opt/kube/kubectx"
+  register: kube_install_status
+  tags: devops
+
+- name: Create /opt/kube
+  become: true
+  file:
+    path: /opt/kube
+    state: directory
+  when: not kube_install_status.stat.exists
+
+- name: Download kubctx
+  become: true
+  get_url:
+    url: "https://github.com/ahmetb/kubectx/releases/download/v0.9.4/kubectx"
+    dest: "/opt/kube/kubectx"
+    force: false
+    mode: 0755
+  when: not kube_install_status.stat.exists
+  tags: devops
+
