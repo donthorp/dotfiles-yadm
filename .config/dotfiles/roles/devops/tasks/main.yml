@@ -1,11 +1,12 @@
 ---
 # Tasks for DevOps tooling
 
-- name: Install Kubectl
+- name: Install Kubectl and Helm
   become: true
   community.general.snap:
     name:
       - kubectl
+      - helm
     classic: true
   tags: devops
 
