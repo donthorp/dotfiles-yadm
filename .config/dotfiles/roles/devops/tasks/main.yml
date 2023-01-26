@@ -10,28 +10,44 @@
     classic: true
   tags: devops
 
-- name: Check if kubectx has already been installed
-  become: true
-  stat:
-    path: "/opt/kube/kubectx"
-  register: kube_install_status
-  tags: devops
-
 - name: Create /opt/kube
   become: true
   file:
     path: /opt/kube
     state: directory
-  when: not kube_install_status.stat.exists
+      #  when: not eksctl_install_status.stat.exists
 
-- name: Download kubctx
+- name: Check if kubectx has already been installed
+  become: true
+  stat:
+    path: "/opt/kube/kubectx"
+  register: kubectx_install_status
+  tags: devops
+
+- name: Install kubctx
   become: true
   get_url:
     url: "https://github.com/ahmetb/kubectx/releases/download/v0.9.4/kubectx"
     dest: "/opt/kube/kubectx"
     force: false
     mode: 0755
-  when: not kube_install_status.stat.exists
+  when: not kubectx_install_status.stat.exists
+  tags: devops
+
+- name: Check if eksctl has already been installed
+  become: true
+  stat:
+    path: "/opt/kube/eksctl"
+  register: eksctl_install_status
+  tags: devops
+
+- name: Install eksctl from github.com/weaveworks
+  become: true
+  ansible.builtin.unarchive:
+    src: https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz
+    dest: /opt/kube
+    remote_src: yes
+  when: not eksctl_install_status.stat.exists
   tags: devops
 
 - name: Install Kontena Lens for Kubernetes
