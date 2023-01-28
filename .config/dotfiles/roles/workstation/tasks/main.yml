@@ -49,3 +49,9 @@
 - name: DBeaver
   include_tasks: ./roles/workstation/tasks/dbeaver.yml
 
+- name: Install VLC
+  become: false
+  community.general.flatpak:
+    name: org.videolan.VLC
+    method: user
+    state: present
