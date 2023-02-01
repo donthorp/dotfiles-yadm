@@ -21,6 +21,7 @@
     - inetutils-traceroute
     - jq
     - lsb-release
+    - openssh-server
     - python3-pip
     - ripgrep
     - snapd 
