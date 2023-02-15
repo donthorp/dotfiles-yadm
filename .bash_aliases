@@ -33,6 +33,7 @@ alias svenv="source venv/bin/activate"
 alias tf="/usr/bin/env terraform"
 alias tf-ro="tf init && tf plan --refresh-only"
 alias tack="ack --ignore-dir=.terraform"
+alias tfplan="(tf plan && play-all-done) || play-all-done"
 
 # Tradeswell 
 alias tw-aws="source $HOME/.local/bin/tw-aws.sh"
