@@ -153,6 +153,8 @@ else
   echo "No ssh configs exist in $HOME/.ssh/config.d/*"
 fi
 
+[ -d $HOME/.ssh/control-paths ] || mkdir -p $HOME/.ssh/control-paths
+
 # Initialize Starship
 eval "$(starship init bash)"
 

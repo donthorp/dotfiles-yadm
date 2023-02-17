@@ -1,8 +1,77 @@
 #! /usr/bin/env bash
 #
-# This script requires the Github CLI which you can install with brew install gh
+# This script requires the Github CLI which you can install with `brew install gh`
+#
 # You'll need to make sure to authorize gh before using this script. You MUST use
-# ssh and not https. To authorize use gh auth login.
+# ssh and not https. To authorize use `gh auth login`.
+#
+# You also need to limit authentication requests. Add the following items
+#
+# To .bashrc - to make sure the control-path directory exists
+#    [ -d $HOME/.ssh/control-paths ] || mkdir -p $HOME/.ssh/control-paths
+#
+# To ~/.ssh/config - add the following 3 lines to your github entry
+#
+#  ControlMaster auto
+#  ControlPath ~/.ssh/control-paths/ssh-%r@%h:%p
+#  ControlPersist 5m
 
-gh repo list Tradeswell --limit 300 | grep ^Tradeswell | cut -f 1 | sed -e 's/Tradeswell\///' | sort \
-    | xargs -n 1 -I % git clone git@github.com:Tradeswell/% % 
+ORG=Tradeswell
+REPO_LIMIT=300
+MAX_JOBS=4
+
+# Update or pull repository
+function do-job {
+  if [ -d $1 ]; then
+    echo "Updating $1" | tee $1.out
+    cd $1
+    git pull --all --prune -tp --stat --ff-only >> ../$1.out 2>&1
+    git fetch --tags --prune-tags >> ../$1.out 2>&1
+    cd ..
+  else
+    echo "Cloning $1" | tee $1.out
+    git clone --verbose git@github.com:$ORG/$1 $1 >> $1.out 2>&1
+  fi
+  
+  echo "------------------------------------------------" >> $1.out
+}
+
+repos=$(gh repo list $ORG --limit $REPO_LIMIT | grep ^$ORG | cut -f 1 | sed -e 's/.*\///' | sort)
+
+# Count the number of repositories to pull or update
+num_repos=$(echo $repos | wc -w)
+echo "There are ${num_repos} repositories to pull or update"
+
+# Parallelize requests up to a maximum of $MAX_JOBS
+#   Github seems to be throttling authentications, you need to update your SSH Config to reuse connections
+
+# If connection to github.com doesn't already exist, open it to prevent a race condition when the first
+# few jobs are started.
+
+ssh -O check github.com > /dev/null 2>&1
+if [ $? != 0 ]; then
+  echo "Starting ssh connection to github"
+  ssh -M github.com > /dev/null 2>&1
+  ssh -O check github.com
+  echo
+fi
+
+# Process all the repositories
+for r in $repos; do
+  num_jobs=$(pgrep -c -P$$)
+
+  if [[ $num_jobs -ge $MAX_JOBS ]]; then
+    wait -n $(pgrep -P$$) # Wait until any subprocess exits
+  fi
+
+  (do-job $r) &
+done
+
+wait
+
+echo Consolidating logs
+cat *.out > update.log
+echo Cleaning up temporary logs
+rm *.out
+echo See update.log for more information
+
