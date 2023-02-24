@@ -23,3 +23,8 @@ modified = "📝"
 staged = '[++\($count\)](green)'
 renamed = "👅"
 deleted = "🗑"
+
+[custom.reboot_required]
+format = '[-- REBOOT REQUIRED --]($style)'
+style = 'bold fg:#FFFFFF bg:bright-red'
+when = 'test -f /var/run/reboot-required'
