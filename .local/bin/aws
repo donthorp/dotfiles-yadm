@@ -15,6 +15,18 @@ if [ ! -d "$AWS_CONFIG_DIR" ]; then
   echo "Created $AWS_CONFIG_DIR"
 fi
 
+if [ "$AWS_DEFAULT_REGION" == "" ]; then
+  echo Please set the AWS_DEFAULT_REGION env var
+fi
+
+if [ "$AWS_REGION" == "" ]; then
+  echo Please set the AWS_REGION env var
+fi
+
+if [ "$AWS_PROFILE" == "" ]; then
+  echo Please set the AWS_PROFILE env var
+fi
+ 
 # If the the docker image $DOCKER_IMAGE_TAG doesn't exist, we need to create it first
 
 docker image inspect $DOCKER_IMAGE_TAG > /dev/null
@@ -25,7 +37,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Determine if we're in an interactive terminal or not and configure Docker accordingly
-TTY="-t"
+TTY="-ti" # Forcing to interactive until I can figure out paging.
 if [[ $- == *i* ]]; then
   TTY="${TTY}i"
 fi
