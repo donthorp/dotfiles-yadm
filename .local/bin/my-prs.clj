@@ -11,7 +11,7 @@
             [clojure.string :as str]))
 
 (def cmd (str/join "" ["gh search prs "
-              "    --review-requested=\"@me\" "
+              "    --review-requested=\"donthorp\" "
               "    --state=open "
               "    --limit=300 "
               "    --json=\"createdAt,number,url,title,repository\""]))
