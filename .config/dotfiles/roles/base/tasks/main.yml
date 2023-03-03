@@ -1,6 +1,19 @@
 ---
 # tasks file for base
 
+- name: Install Github CLI GPG Key
+  ansible.builtin.get_url:
+    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    mode: 0644
+
+# TODO: automate retrieval of architecture
+#
+- name: Add Github CLI APT Repository
+  ansible.builtin.apt_repository:
+    filename: github-cli
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+
 - name: Update APT repository if needed
   ansible.builtin.apt:
     name: "*"
@@ -16,6 +29,7 @@
     - dos2unix
     - dirmngr
     - gawk
+    - gh
     - git-extras
     - gnupg
     - inetutils-traceroute
