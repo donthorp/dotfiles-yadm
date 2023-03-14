@@ -35,6 +35,7 @@
     - inetutils-traceroute
     - jq
     - lsb-release
+    - needrestart
     - openssh-server
     - python3-pip
     - ripgrep
