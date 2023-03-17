@@ -37,7 +37,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Determine if we're in an interactive terminal or not and configure Docker accordingly
-TTY="-ti" # Forcing to interactive until I can figure out paging.
+TTY="-t" # Forcing to interactive until I can figure out paging.
 if [[ $- == *i* ]]; then
   TTY="${TTY}i"
 fi
