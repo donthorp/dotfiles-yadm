@@ -13,3 +13,7 @@ matches:
   - trigger: "!dk"
     replace: "don-karen"
 
+  # OHF Harlequin Tags
+  - trigger: "!harlequin"
+    replace: "#harlequinsheep #miniaturesheep #lambs #livestock #kerrvilletx"
+
