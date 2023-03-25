@@ -28,6 +28,7 @@
     - curl
     - dos2unix
     - dirmngr
+    - fzf
     - gawk
     - gh
     - git-extras
