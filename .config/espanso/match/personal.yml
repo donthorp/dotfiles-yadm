@@ -17,3 +17,7 @@ matches:
   - trigger: "!harlequin"
     replace: "#harlequinsheep #miniaturesheep #lambs #livestock #kerrvilletx"
 
+  # OHF Spanish Nigerian Dwarf Goat Tags
+  - trigger: "!sndg"
+    replace: "#goat #goatkids #goatkid #livestock #kerrvilletx #spanishgoats #spanishgoat #nigeriandwarfgoats #spanishnigeriandwarfgoats"
+
