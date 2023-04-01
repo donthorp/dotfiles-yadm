@@ -1,0 +1,15 @@
+# Configuration for Tradeswell specific expansions
+
+matches:
+  # OHF Harlequin Tags
+  - trigger: "!ohf-tags-harlequin"
+    replace: "#harlequinsheep #miniaturesheep #lambs #livestock #kerrvilletx #petsheep #breedingsheep"
+  
+  # OHF Nigerian Dwarf Goat Tags
+  - trigger: "!ohf-tags-ndg"
+    replace: "#goat #goatkids #goatkid #livestock #kerrvilletx #nigeriandwarfgoats #breedinggoats #petgoats"
+      
+  # OHF Spanish Nigerian Dwarf Goat Tags
+  - trigger: "!ohf-tags-sndg"
+    replace: "#goat #goatkids #goatkid #livestock #kerrvilletx #spanishgoats #spanishgoat #nigeriandwarfgoats #spanishnigeriandwarfgoats #breedinggoats #petgoats"
+
