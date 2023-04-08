@@ -3,7 +3,7 @@
 matches:
   # OHF Harlequin Tags
   - trigger: "!ohf-tags-harlequin"
-    replace: "#harlequinsheep #miniaturesheep #lambs #livestock #kerrvilletx #petsheep #breedingsheep"
+    replace: "#harlequinsheep #miniaturesheep #lambs #livestock #kerrvilletx #petsheep #breedingsheep #woolsheep"
   
   # OHF Nigerian Dwarf Goat Tags
   - trigger: "!ohf-tags-ndg"
