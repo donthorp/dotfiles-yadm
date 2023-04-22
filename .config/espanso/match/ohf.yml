@@ -13,3 +13,7 @@ matches:
   - trigger: "!ohf-tags-sndg"
     replace: "#goat #goatkids #goatkid #livestock #kerrvilletx #spanishgoats #spanishgoat #nigeriandwarfgoats #spanishnigeriandwarfgoats #breedinggoats #petgoats"
 
+  # OHF Icelandic Puppies
+  - trigger: "!ohf-icie-puppies"
+    replace: "#puppy #puppies #icelandicsheepdog #icelandicsheepdogs #dogsofinstagram #kerrvilletx"
+
