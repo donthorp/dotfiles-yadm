@@ -4,7 +4,13 @@
   become: true
   ansible.builtin.apt_repository:
     repo: ppa:agornostal/ulauncher
-    update_cache: false
+    update_cache: true
+
+- name: Update APT repository if needed
+  become: true
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
 
 - name: Install Ulauncher
   become: true
