@@ -28,10 +28,14 @@ sudo hostnamectl set-hostname hermes01
 
 ## Bootstrap
 
-### Install `yadm`
+### Update the system in case you need to fix broken installs, etc
 
 ```bash
-sudo apt update && sudo apt install yadm
+sudo apt update && sudo apt upgrade -y
+```
+### Install `yadm`
+```bash
+sudo apt install yadm
 ```
 ### Clone this Repository
 
