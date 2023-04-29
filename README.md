@@ -5,7 +5,7 @@
 Use artemisNN for desktop machines.
 
 ```bash
-sudo hostnamectl set-hostname artemis02
+sudo hostnamectl set-hostname artemis03
 ```
 
 Use borosNN for laptops
@@ -49,6 +49,9 @@ yadm clone https://github.com/donthorp/dotfiles-yadm.git
 ```bash
 ~/.bootstrap.sh
 ```
-
 Visit [Github SSH Keys](https://github.com/settings/keys) and add the public key printed in the terminal session.
-
+### In a new Session
+Apparently we have to authenticate at least once before the key allows push.
+```bash
+ssh -T github.com
+```
