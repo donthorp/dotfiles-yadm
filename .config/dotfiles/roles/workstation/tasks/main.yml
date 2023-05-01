@@ -55,3 +55,10 @@
     name: org.videolan.VLC
     method: user
     state: present
+
+- name: Install The Gimp
+  become: false
+  community.general.flatpak:
+    name: org.gimp.GIMP
+    method: user
+    state: present
