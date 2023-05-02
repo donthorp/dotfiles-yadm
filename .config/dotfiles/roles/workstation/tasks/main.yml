@@ -62,3 +62,10 @@
     name: org.gimp.GIMP
     method: user
     state: present
+
+- name: Install Converseen for Image Conversion
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    pkg: converseen
+
