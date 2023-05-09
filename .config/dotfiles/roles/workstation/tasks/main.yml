@@ -76,3 +76,5 @@
     method: user
     state: present
 
+- name: Include InsyncHQ
+  include_tasks: ./roles/workstation/tasks/insynchq.yml

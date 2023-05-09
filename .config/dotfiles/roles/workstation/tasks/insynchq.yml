@@ -1,0 +1,21 @@
+---
+- name: Add InsyncHQ Repository Key
+  become: true
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: ACCAF35C
+    state: present
+
+- name: Add InsyncHQ Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] http://apt.insync.io/ubuntu jammy non-free contrib"
+    filename: insynchq
+
+- name: Install InsyncHQ
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    pkg:
+      - insync
+
