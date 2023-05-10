@@ -78,3 +78,11 @@
 
 - name: Include InsyncHQ
   include_tasks: ./roles/workstation/tasks/insynchq.yml
+
+- name: Install Hugo
+  become: true
+  community.general.snap:
+    name:
+      - hugo
+    state: present
+
