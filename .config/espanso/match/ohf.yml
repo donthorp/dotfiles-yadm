@@ -17,3 +17,10 @@ matches:
   - trigger: "!ohf-icie-puppies"
     replace: "#puppy #puppies #icelandicsheepdog #icelandicsheepdogs #dogsofinstagram #kerrvilletx"
 
+  # OHF Contact
+  - trigger: "!ohf-contact"
+    replace: |
+      email: info@orchidhillfarms.com
+      website: https://orchidhillfarms.com
+      facebook: https://www.facebook.com/orchidhillfarms
+      phone: +1 830-262-0900
