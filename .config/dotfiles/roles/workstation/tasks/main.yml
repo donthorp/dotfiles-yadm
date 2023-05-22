@@ -86,3 +86,9 @@
       - hugo
     state: present
 
+- name: Install Node.js
+  become: true
+  community.general.snap:
+    name: node
+    channel: "16/stable"
+    classic: true
