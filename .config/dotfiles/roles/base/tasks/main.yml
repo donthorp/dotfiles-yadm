@@ -60,6 +60,7 @@
   community.general.snap:
     name:
       - espanso
+      - nvim
     classic: true
   tags: base
 
