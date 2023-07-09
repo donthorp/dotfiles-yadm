@@ -37,6 +37,7 @@
     - jq
     - lsb-release
     - needrestart
+    - nfs-common
     - openssh-server
     - python3-pip
     - ripgrep
