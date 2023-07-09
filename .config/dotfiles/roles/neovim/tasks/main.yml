@@ -2,11 +2,9 @@
 - name: Update default paths
   community.general.alternatives:
     name: "{{ item }}"
-    path: "{{ lookup('env','HOME') }}/.local/bin/nvim.appimage"
+    path: "/snap/bin/nvim"
     link: /usr/bin/{{ item }}
     priority: 110
-    state: absent
-  become: true
   loop:
   - ex
   - vi
