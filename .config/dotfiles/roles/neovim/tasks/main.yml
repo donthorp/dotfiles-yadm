@@ -2,6 +2,7 @@
 # Modified from https://github.com/budimanjojo/ansible-role-neovim/blob/e1fbd19f7b5866015554f914827d8c32cff5119d/tasks/main.yml#L2
 
 - name: Install latest neovim using AppImage
+  become: false
   ansible.builtin.get_url:
     url: "https://github.com/neovim/neovim/releases/download/{{ neovim_nvim_version }}/nvim.appimage"
     dest: "{{ lookup('env','HOME') }}/.local/bin/nvim.appimage"
@@ -23,3 +24,18 @@
   - vimdiff
   - nvim
   tags: base
+
+- name: Install NVChad from github
+  become: false
+  ansible.builtin.git:
+    repo: "git@github.com:NvChad/NvChad.git"
+    dest: "{{ lookup('env','HOME') }}/.config/nvim-nvchad"
+    depth: 1
+    clone: true
+
+- name: Link to NVChad customization files
+  become: false
+  ansible.builtin.file:
+    state: link
+    src: "{{ lookup('env','HOME') }}/.config/nvchad-custom"
+    dest: "{{ lookup('env','HOME') }}/.config/nvim-nvchad/lua/custom"
