@@ -85,7 +85,7 @@
 - name: Download Fira Code Nerd Fonts
   become: false
   ansible.builtin.unarchive:
-    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/FiraCode.zip 
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/FiraCode.zip 
     dest: ~/.local/share/fonts
     remote_src: yes
     creates: '~/.local/share/fonts/Fira Code Regular Nerd Font Complete.ttf'
