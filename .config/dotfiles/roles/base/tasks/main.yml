@@ -61,7 +61,6 @@
   community.general.snap:
     name:
       - espanso
-      - nvim
     classic: true
   tags: base
 
@@ -88,6 +87,6 @@
     src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/FiraCode.zip 
     dest: ~/.local/share/fonts
     remote_src: yes
-    creates: '~/.local/share/fonts/Fira Code Regular Nerd Font Complete.ttf'
+    creates: '~/.local/share/fonts/FiraCodeNerdFont-Regular.ttf'
   notify: fc-cache
   tags: base

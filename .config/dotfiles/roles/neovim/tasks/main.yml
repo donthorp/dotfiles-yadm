@@ -1,10 +1,20 @@
 ---
+# Modified from https://github.com/budimanjojo/ansible-role-neovim/blob/e1fbd19f7b5866015554f914827d8c32cff5119d/tasks/main.yml#L2
+
+- name: Install latest neovim using AppImage
+  ansible.builtin.get_url:
+    url: "https://github.com/neovim/neovim/releases/download/{{ neovim_nvim_version }}/nvim.appimage"
+    dest: "{{ lookup('env','HOME') }}/.local/bin/nvim.appimage"
+    mode: 0755
+    force: true
+
 - name: Update default paths
   community.general.alternatives:
     name: "{{ item }}"
-    path: "/snap/bin/nvim"
+    path: "{{ lookup('env','HOME') }}/.local/bin/nvim.appimage"
     link: /usr/bin/{{ item }}
     priority: 110
+    state: present
   loop:
   - ex
   - vi
