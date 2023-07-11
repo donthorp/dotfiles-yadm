@@ -35,6 +35,7 @@
     - gnupg
     - inetutils-traceroute
     - jq
+    - libfuse2
     - lsb-release
     - needrestart
     - nfs-common
