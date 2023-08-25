@@ -92,3 +92,8 @@
     name: node
     channel: "16/stable"
     classic: true
+
+- name: Install Parsec
+  become: true
+  apt:
+    deb: https://builds.parsec.app/package/parsec-linux.deb
