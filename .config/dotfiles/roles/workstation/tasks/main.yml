@@ -97,3 +97,7 @@
   become: true
   apt:
     deb: https://builds.parsec.app/package/parsec-linux.deb
+
+- name: Install Inkscape
+  include_tasks: ./roles/workstation/tasks/inkscape.yml
+

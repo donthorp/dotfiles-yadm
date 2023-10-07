@@ -1,0 +1,20 @@
+---
+
+- name: Add Inkscape PPA
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:inkscape.dev/stable
+    update_cache: true
+
+- name: Update APT repository if needed
+  become: true
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+
+- name: Install Inkscape 
+  become: true
+  ansible.builtin.apt: 
+    state: latest
+    pkg:
+      - inkscape 
