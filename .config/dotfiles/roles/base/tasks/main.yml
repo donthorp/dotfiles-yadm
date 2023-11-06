@@ -24,6 +24,7 @@
     state: latest
     pkg: 
     - ack 
+    - autofs
     - ca-certificates 
     - curl
     - dos2unix
