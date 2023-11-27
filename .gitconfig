@@ -7,3 +7,5 @@
 [pull]
   ff = only
   rebase = true
+[safe]
+	directory = /home/don/shared/projects/personal/homelab
