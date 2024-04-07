@@ -55,3 +55,7 @@ Apparently we have to authenticate at least once before the key allows push.
 ```bash
 ssh -T github.com
 ```
+### Finish initial YDAM Setup
+```bash
+yadm bootstrap
+```
