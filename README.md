@@ -59,3 +59,11 @@ ssh -T github.com
 ```bash
 yadm bootstrap
 ```
+### YADM Diff Issue
+
+If there is a conflict in `.bashrc` you **might** need to checkout .bashrc specifically to solve it and get any updates made remotely.
+
+```bash
+yadm checkout .bashrc
+yadm pull
+```
