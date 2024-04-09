@@ -6,6 +6,16 @@
   ansible.builtin.pip:
     name: psutil
 
+- name: Configure Terminal to use System Theme
+  community.general.dconf:
+    key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/use-theme-colors"
+    value: "true"
+
+- name: Configure Terminal to use a Nerd Font
+  community.general.dconf:
+    key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/font"
+    value: "'FiraCode Nerd Font Mono 12'"
+
 - name: Customize Gnome
   include_role:
     name: gnome
