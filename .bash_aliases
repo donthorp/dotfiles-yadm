@@ -18,6 +18,9 @@ alias update-git-repos='for v in $(ls -1d *); do echo $(cd $v; echo $v; ! git pu
 # USG Status
 alias 'usg-status'="ssh -t 10.10.0.1 \"vbash -ic 'show load-balance status; show load-balance watchdog'\""
 
+# Framework BIOS Version Check
+alias 'fwbios'="sudo apt install lshw dmidecode -y && sudo dmidecode | grep -A3 'Vendor:\|Product:' && sudo lshw -C cpu | grep -A3 'product:\|vendor:'"
+
 # I prefer macos clipboard CLI names
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
