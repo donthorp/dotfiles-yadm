@@ -25,6 +25,7 @@ sudo hostnamectl set-hostname hermes01
 - artemis01 - Gaming Machine - 23 Aug 2022
 - hermes01 - Development VM for new dot files
 - artemis02 - Minisforum Desktop UM690 32 GB RAM, 1 TB M2 - 29 Apr 2023
+- boros03 - Framwork 13 AMD - 12 Nov 2025
 
 ## Bootstrap
 
