@@ -111,52 +111,79 @@
     libre_clarendon_extract_dir: "{{ libre_clarendon_cache_dir }}/Libre-Clarendon-master"
     libre_clarendon_install_dir: "{{ ansible_env.HOME }}/.local/share/fonts/libre-clarendon"
   block:
+    - name: Check whether Libre Clarendon is already installed
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.local/share/fonts/libre-clarendon/LibreClarendon-Regular.ttf"
+      register: libre_clarendon_installed
+      tags: base
 
-    - name: Ensure font and cache directories exist
+    - name: Ensure Libre Clarendon directories exist
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         mode: "0755"
       loop:
+        - "{{ ansible_env.HOME }}/.cache/font-downloads"
         - "{{ ansible_env.HOME }}/.local/share/fonts"
-        - "{{ libre_clarendon_install_dir }}"
-        - "{{ libre_clarendon_cache_dir }}"
+        - "{{ ansible_env.HOME }}/.local/share/fonts/libre-clarendon"
+      tags: base
 
     - name: Download Libre Clarendon archive
       ansible.builtin.get_url:
-        url: "{{ libre_clarendon_url }}"
-        dest: "{{ libre_clarendon_zip }}"
+        url: "https://codeload.github.com/impallari/Libre-Clarendon/zip/refs/heads/master"
+        dest: "{{ ansible_env.HOME }}/.cache/font-downloads/libre-clarendon-master.zip"
         mode: "0644"
+        force: false
+      when: not libre_clarendon_installed.stat.exists
+      tags: base
 
     - name: Extract Libre Clarendon archive
       ansible.builtin.unarchive:
-        src: "{{ libre_clarendon_zip }}"
-        dest: "{{ libre_clarendon_cache_dir }}"
+        src: "{{ ansible_env.HOME }}/.cache/font-downloads/libre-clarendon-master.zip"
+        dest: "{{ ansible_env.HOME }}/.cache/font-downloads"
         remote_src: true
-        creates: "{{ libre_clarendon_extract_dir }}/fonts"
+        creates: "{{ ansible_env.HOME }}/.cache/font-downloads/Libre-Clarendon-master/fonts"
+      when: not libre_clarendon_installed.stat.exists
+      tags: base
 
-    - name: Find Libre Clarendon font files
-      ansible.builtin.find:
-        paths: "{{ libre_clarendon_extract_dir }}/fonts"
-        patterns:
-          - "*.ttf"
-          - "*.otf"
-        recurse: true
-      register: libre_clarendon_fonts
-
-    - name: Install Libre Clarendon fonts
-      ansible.builtin.copy:
-        src: "{{ item.path }}"
-        dest: "{{ libre_clarendon_install_dir }}/{{ item.path | basename }}"
-        mode: "0644"
-        remote_src: true
-      loop: "{{ libre_clarendon_fonts.files }}"
+    - name: Install Libre Clarendon font files
+      ansible.builtin.shell: |
+        find "{{ ansible_env.HOME }}/.cache/font-downloads/Libre-Clarendon-master/fonts" \
+          \( -iname '*.ttf' -o -iname '*.otf' \) \
+          -exec cp -f {} "{{ ansible_env.HOME }}/.local/share/fonts/libre-clarendon/" \;
+      args:
+        executable: /bin/bash
+      when: not libre_clarendon_installed.stat.exists
       notify: fc-cache
-
-    - name: Remove extracted archive directory
-      ansible.builtin.file:
-        path: "{{ libre_clarendon_extract_dir }}"
-        state: absent
-
   tags: base
+
+- name: Ensure Inter font directories exist
+  become: false
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ ansible_env.HOME }}/.local/share/fonts"
+    - "{{ ansible_env.HOME }}/.local/share/fonts/inter"
+    - "{{ ansible_env.HOME }}/.cache/font-downloads"
+  tags: fonts
+
+- name: Download Inter font release
+  become: false
+  ansible.builtin.get_url:
+    url: https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip
+    dest: "{{ ansible_env.HOME }}/.cache/font-downloads/inter-4.1.zip"
+    mode: "0644"
+  tags: fonts
+
+- name: Extract Inter fonts
+  become: false
+  ansible.builtin.unarchive:
+    src: "{{ ansible_env.HOME }}/.cache/font-downloads/inter-4.1.zip"
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts/inter"
+    remote_src: true
+    creates: "{{ ansible_env.HOME }}/.local/share/fonts/inter/Inter.ttc"
+  notify: fc-cache
+  tags: fonts
 
