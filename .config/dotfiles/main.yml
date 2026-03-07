@@ -2,12 +2,11 @@
 - name: "Don Dotfiles Host"
   hosts: localhost
   connection: local
-  become: true
   vars:
     neovim_nvim_version: v0.9.1
   roles:
     - base
-    - neovim
+#    - neovim
     - babashka
   tags: base
 

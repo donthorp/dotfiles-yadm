@@ -2,6 +2,7 @@
 # tasks file for base
 
 - name: Install Github CLI GPG Key
+  become: true
   ansible.builtin.get_url:
     url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
     dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
@@ -15,11 +16,13 @@
     repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
 
 - name: Update APT repository if needed
+  become: true
   ansible.builtin.apt:
     name: "*"
     state: latest
 
 - name: Install Base Packages
+  become: true
   ansible.builtin.apt: 
     state: latest
     pkg: 
@@ -47,6 +50,7 @@
   tags: base
 
 - name: Install Snaps
+  become: true
   community.general.snap:
     name:
       - htop
@@ -92,3 +96,67 @@
     creates: '~/.local/share/fonts/FiraCodeNerdFont-Regular.ttf'
   notify: fc-cache
   tags: base
+
+- name: Show user path vars
+  ansible.builtin.debug:
+    msg:
+      - "ansible_env.HOME={{ ansible_env.HOME | default('unset') }}"
+      - "ansible_user_dir={{ ansible_user_dir | default('unset') }}"
+      - "ansible_user_id={{ ansible_user_id | default('unset') }}"
+- name: Install Libre Clarendon fonts
+  vars:
+    libre_clarendon_url: "https://codeload.github.com/impallari/Libre-Clarendon/zip/refs/heads/master"
+    libre_clarendon_cache_dir: "{{ ansible_env.HOME }}/.cache/font-downloads"
+    libre_clarendon_zip: "{{ libre_clarendon_cache_dir }}/libre-clarendon-master.zip"
+    libre_clarendon_extract_dir: "{{ libre_clarendon_cache_dir }}/Libre-Clarendon-master"
+    libre_clarendon_install_dir: "{{ ansible_env.HOME }}/.local/share/fonts/libre-clarendon"
+  block:
+
+    - name: Ensure font and cache directories exist
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - "{{ ansible_env.HOME }}/.local/share/fonts"
+        - "{{ libre_clarendon_install_dir }}"
+        - "{{ libre_clarendon_cache_dir }}"
+
+    - name: Download Libre Clarendon archive
+      ansible.builtin.get_url:
+        url: "{{ libre_clarendon_url }}"
+        dest: "{{ libre_clarendon_zip }}"
+        mode: "0644"
+
+    - name: Extract Libre Clarendon archive
+      ansible.builtin.unarchive:
+        src: "{{ libre_clarendon_zip }}"
+        dest: "{{ libre_clarendon_cache_dir }}"
+        remote_src: true
+        creates: "{{ libre_clarendon_extract_dir }}/fonts"
+
+    - name: Find Libre Clarendon font files
+      ansible.builtin.find:
+        paths: "{{ libre_clarendon_extract_dir }}/fonts"
+        patterns:
+          - "*.ttf"
+          - "*.otf"
+        recurse: true
+      register: libre_clarendon_fonts
+
+    - name: Install Libre Clarendon fonts
+      ansible.builtin.copy:
+        src: "{{ item.path }}"
+        dest: "{{ libre_clarendon_install_dir }}/{{ item.path | basename }}"
+        mode: "0644"
+        remote_src: true
+      loop: "{{ libre_clarendon_fonts.files }}"
+      notify: fc-cache
+
+    - name: Remove extracted archive directory
+      ansible.builtin.file:
+        path: "{{ libre_clarendon_extract_dir }}"
+        state: absent
+
+  tags: base
+

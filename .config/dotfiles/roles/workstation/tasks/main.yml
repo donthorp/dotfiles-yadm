@@ -30,7 +30,7 @@
 - name: Install Slack 
   become: true
   ansible.builtin.apt: 
-    state: latest
+    state: absent
     pkg: slack-desktop 
 
 - name: Configure and Install Wavebox
@@ -46,8 +46,8 @@
     method: user
     state: present
 
-- name: DBeaver
-  include_tasks: ./roles/workstation/tasks/dbeaver.yml
+#- name: DBeaver
+#  include_tasks: ./roles/workstation/tasks/dbeaver.yml
 
 - name: Install VLC
   become: false
@@ -74,24 +74,24 @@
   community.general.flatpak:
     name: com.github.jeromerobert.pdfarranger
     method: user
-    state: present
+    state: absent
 
-- name: Include InsyncHQ
-  include_tasks: ./roles/workstation/tasks/insynchq.yml
+# - name: Include InsyncHQ
+#  include_tasks: ./roles/workstation/tasks/insynchq.yml
 
 - name: Install Hugo
   become: true
   community.general.snap:
     name:
       - hugo
-    state: present
+    state: absent
 
-- name: Install Node.js
-  become: true
-  community.general.snap:
-    name: node
-    channel: "16/stable"
-    classic: true
+#- name: Install Node.js
+#  become: true
+#  community.general.snap:
+#    name: node
+#    channel: "16/stable"
+#    classic: true
 
 - name: Install Parsec
   become: true
