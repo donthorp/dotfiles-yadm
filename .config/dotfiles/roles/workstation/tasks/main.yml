@@ -101,3 +101,5 @@
 - name: Install Inkscape
   include_tasks: ./roles/workstation/tasks/inkscape.yml
 
+- name: Configure and Install Syncthing
+  include_tasks: ./roles/workstation/tasks/syncthing.yml

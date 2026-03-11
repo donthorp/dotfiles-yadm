@@ -1,0 +1,34 @@
+---
+- name: Install Syncthing
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    pkg:
+      - syncthing
+
+- name: Create systemd override directory for Syncthing
+  become: true
+  ansible.builtin.file:
+    path: /etc/systemd/system/syncthing@.service.d
+    state: directory
+    mode: '0755'
+
+- name: Override ProtectSystem for Syncthing
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/syncthing@.service.d/override.conf
+    content: |
+      [Service]
+      ProtectSystem=false
+    mode: '0644'
+
+- name: Enable Syncthing service for current user
+  become: false
+  ansible.builtin.shell:
+    cmd: "systemctl --user enable syncthing"
+
+- name: Start Syncthing service for current user
+  become: false
+  ansible.builtin.shell:
+    cmd: "systemctl --user start syncthing"
+
