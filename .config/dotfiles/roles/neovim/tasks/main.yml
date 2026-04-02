@@ -25,17 +25,3 @@
   - nvim
   tags: base
 
-- name: Install NVChad from github
-  become: false
-  ansible.builtin.git:
-    repo: "git@github.com:NvChad/NvChad.git"
-    dest: "{{ lookup('env','HOME') }}/.config/nvim-nvchad"
-    depth: 1
-    clone: true
-
-- name: Link to NVChad customization files
-  become: false
-  ansible.builtin.file:
-    state: link
-    src: "{{ lookup('env','HOME') }}/.config/nvchad-custom"
-    dest: "{{ lookup('env','HOME') }}/.config/nvim-nvchad/lua/custom"
