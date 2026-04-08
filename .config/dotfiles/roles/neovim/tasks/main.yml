@@ -4,15 +4,15 @@
 - name: Install latest neovim using AppImage
   become: false
   ansible.builtin.get_url:
-    url: "https://github.com/neovim/neovim/releases/download/{{ neovim_nvim_version }}/nvim.appimage"
-    dest: "{{ lookup('env','HOME') }}/.local/bin/nvim.appimage"
+    url: "https://github.com/neovim/neovim/releases/download/{{ neovim_nvim_version }}/nvim-linux-x86_64.appimage"
+    dest: "{{ lookup('env','HOME') }}/.local/bin/nvim-linux-x86_64.appimage"
     mode: 0755
     force: true
 
 - name: Update default paths
   community.general.alternatives:
     name: "{{ item }}"
-    path: "{{ lookup('env','HOME') }}/.local/bin/nvim.appimage"
+    path: "{{ lookup('env','HOME') }}/.local/bin/nvim-linux-x86_64.appimage"
     link: /usr/bin/{{ item }}
     priority: 110
     state: present
