@@ -10,6 +10,7 @@
     force: true
 
 - name: Update default paths
+  become: true
   community.general.alternatives:
     name: "{{ item }}"
     path: "{{ lookup('env','HOME') }}/.local/bin/nvim-linux-x86_64.appimage"
