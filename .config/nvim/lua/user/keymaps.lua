@@ -29,3 +29,15 @@ km("n", "<leader>du", ":DBUIToggle<CR>", opts)
 km("n", "<leader>df", ":DBUIFindBuffer<CR>", opts)
 km("n", "<leader>dr", ":DBUIiRenameBuffer<CR>", opts)
 km("n", "<leader>dl", ":DBUILastQueryInfo<CR>", opts)
+
+-- Telescope
+vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
+vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<CR>",  { desc = "Live grep" })
+vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>",    { desc = "Buffers" })
+vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<CR>",  { desc = "Help" })
+
+-- File tree
+vim.keymap.set("n", "<leader>ft", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
+
+-- Command palette
+vim.keymap.set({"n", "i", "x"}, "<C-p>", function() require("legendary").find() end, { desc = "Command palette" })
