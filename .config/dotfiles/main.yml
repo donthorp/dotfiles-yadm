@@ -3,10 +3,10 @@
   hosts: localhost
   connection: local
   vars:
-    neovim_nvim_version: v0.9.1
+    neovim_nvim_version: stable
   roles:
     - base
-#    - neovim
+    - neovim
     - babashka
   tags: base
 
