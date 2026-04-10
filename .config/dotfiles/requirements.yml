@@ -4,10 +4,10 @@
 roles:
   # Fork of rjsheperd/ansible-role-babashka
   - src: https://github.com/donthorp/ansible-role-babashka.git
-    version: personal-main
+    version: 07ce47c713069cb199a8933bfab925d1d6c76985
     name: babashka
 
   - src: https://github.com/PeterMosmans/ansible-role-customize-gnome.git
-    version: master
+    version: 5ca921ee1d8d68728e922d13038347d71b4a6a46
     name: gnome
 

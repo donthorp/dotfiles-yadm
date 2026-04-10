@@ -1,9 +1,6 @@
 ---
-- name: "Don Dotfiles Host"
-  hosts: localhost
-  connection: local
-  vars:
-    neovim_nvim_version: stable
+- name: Base
+  hosts: workstations
   roles:
     - base
     - neovim
@@ -11,8 +8,7 @@
   tags: base
 
 - name: Workstation
-  hosts: localhost
-  connection: local
+  hosts: workstations
   become: false
   roles:
     - workstation
