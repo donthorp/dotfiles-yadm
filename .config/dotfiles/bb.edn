@@ -3,18 +3,31 @@
 {:tasks
  {:requires ([babashka.fs :as fs])
 
+  ;; ── Maintenance ─────────────────────────────────────────────────────────────
+
   clean {:doc "Clean up temporary files"
          :task (when (fs/directory? ".ansible") (fs/delete-tree ".ansible"))}
 
   init {:doc "Pull requirements from Ansible Galaxy"
         :task (shell "ansible-galaxy install -r requirements.yml")}
-  
-  check {:doc "Check main playbook"
-         :task (shell "ansible-playbook --check main.yml")}
- 
+
+  ;; ── Install ──────────────────────────────────────────────────────────────────
+
   install-base {:doc "Install base packages"
                 :task (shell "ansible-playbook main.yml --tags base")}
 
-  install-workstation {:doc "Install workstation packages"
-                :task (shell "ansible-playbook main.yml --tags=base,workstation")}
+  install-workstation {:doc "Install base + workstation packages"
+                       :task (shell "ansible-playbook main.yml --tags base,workstation")}
+
+  ;; ── Test (requires Docker) ───────────────────────────────────────────────────
+  ;; Snap and Flatpak tasks are not exercised in Docker — test on a real machine.
+
+  test-build {:doc "Build the Docker test image"
+              :task (shell "docker build -t dotfiles-test -f test/Dockerfile .")}
+
+  test-syntax {:doc "Syntax check the full playbook in Docker"
+               :task (shell "docker run --rm -v $(pwd):/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml && ansible-playbook --syntax-check main.yml'")}
+
+  test-check {:doc "Dry-run the full playbook in Docker (no changes applied)"
+              :task (shell "docker run --rm -v $(pwd):/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml && ansible-playbook --check main.yml'")}
  }}
