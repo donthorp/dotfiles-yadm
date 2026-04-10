@@ -40,12 +40,13 @@
     method: user
     state: present
 
-#- name: Install DBeaver Community
-#  become: false
-#  community.general.flatpak:
-#    name: io.dbeaver.DBeaverCommunity
-#    method: user
-#    state: present
+- name: Install DBeaver Community
+  become: false
+  community.general.flatpak:
+    name: io.dbeaver.DBeaverCommunity
+    method: user
+    state: present
+  when: install_dbeaver
 
 - name: Install VLC
   become: false
@@ -67,12 +68,13 @@
     state: latest
     pkg: converseen
 
-#- name: Install PDF Arranger for Simple PDF manipulation
-#  become: false
-#  community.general.flatpak:
-#    name: com.github.jeromerobert.pdfarranger
-#    method: user
-#    state: present
+- name: Install PDF Arranger
+  become: false
+  community.general.flatpak:
+    name: com.github.jeromerobert.pdfarranger
+    method: user
+    state: present
+  when: install_pdf_arranger
 
 - name: Install Parsec
   become: true

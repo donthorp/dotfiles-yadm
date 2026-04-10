@@ -1,0 +1,4 @@
+---
+# Optional workstation tools — override in host_vars or group_vars to enable
+install_dbeaver: false
+install_pdf_arranger: false
