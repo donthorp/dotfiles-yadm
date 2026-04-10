@@ -22,13 +22,11 @@
       ProtectSystem=false
     mode: '0644'
 
-- name: Enable Syncthing service for current user
+- name: Enable and start Syncthing service for current user
   become: false
-  ansible.builtin.shell:
-    cmd: "systemctl --user enable syncthing"
-
-- name: Start Syncthing service for current user
-  become: false
-  ansible.builtin.shell:
-    cmd: "systemctl --user start syncthing"
+  ansible.builtin.systemd:
+    name: syncthing
+    enabled: true
+    state: started
+    scope: user
 
