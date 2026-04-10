@@ -1,4 +1,17 @@
 ---
-# Optional workstation tools — override in host_vars or group_vars to enable
+# Workstation tools — override in host_vars or group_vars
+install_mpg123: true
+install_discord: true
+install_wavebox: true
+install_ulauncher: true
+install_obsidian: true
+install_vlc: true
+install_gimp: true
+install_converseen: true
+install_parsec: true
+install_inkscape: true
+install_syncthing: true
+
+# Off by default — enable per host
 install_dbeaver: false
 install_pdf_arranger: false
