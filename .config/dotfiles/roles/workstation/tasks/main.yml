@@ -27,12 +27,6 @@
     method: user
     state: present 
 
-- name: Install Slack 
-  become: true
-  ansible.builtin.apt: 
-    state: absent
-    pkg: slack-desktop 
-
 - name: Configure and Install Wavebox
   include_tasks: ./roles/workstation/tasks/wavebox.yml
 
@@ -69,29 +63,12 @@
     state: latest
     pkg: converseen
 
-- name: Install PDF Arranger for Simple PDF manipulation
-  become: false
-  community.general.flatpak:
-    name: com.github.jeromerobert.pdfarranger
-    method: user
-    state: absent
-
-# - name: Include InsyncHQ
-#  include_tasks: ./roles/workstation/tasks/insynchq.yml
-
-- name: Install Hugo
-  become: true
-  community.general.snap:
-    name:
-      - hugo
-    state: absent
-
-#- name: Install Node.js
-#  become: true
-#  community.general.snap:
-#    name: node
-#    channel: "16/stable"
-#    classic: true
+#- name: Install PDF Arranger for Simple PDF manipulation
+#  become: false
+#  community.general.flatpak:
+#    name: com.github.jeromerobert.pdfarranger
+#    method: user
+#    state: present
 
 - name: Install Parsec
   become: true
