@@ -17,10 +17,9 @@
 
 - name: Install Docker GPG Key
   become: true
-  ansible.builtin.get_url:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    dest: /etc/apt/keyrings/docker.gpg
-    mode: 0644
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    creates: /etc/apt/keyrings/docker.gpg
 
 - name: Add Docker APT Repository
   become: true
