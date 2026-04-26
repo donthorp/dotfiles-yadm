@@ -30,9 +30,9 @@
 
   test-syntax {:doc "Syntax check the full playbook in Docker"
                :depends [test-build]
-               :task (shell "docker run --rm -v $(pwd):/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml && ansible-playbook --syntax-check main.yml'")}
+               :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml && ansible-playbook --syntax-check main.yml'"))}
 
   test-check {:doc "Dry-run the full playbook in Docker (no changes applied)"
               :depends [test-build]
-              :task (shell "docker run --rm -v $(pwd):/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml && ansible-playbook --check main.yml'")}
+              :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml && ansible-playbook --check main.yml'"))}
  }}
