@@ -1,9 +1,11 @@
 ---
 # tasks file for base
 
-- name: Update apt cache
+- name: Enable universe repository
   become: true
-  ansible.builtin.apt:
+  ansible.builtin.apt_repository:
+    repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe"
+    state: present
     update_cache: true
 
 - name: Install Github CLI GPG Key
