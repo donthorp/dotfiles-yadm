@@ -19,7 +19,7 @@
   become: true
   ansible.builtin.shell:
     cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    creates: /etc/apt/keyrings/docker.gpg
+  changed_when: false
 
 - name: Add Docker APT Repository
   become: true
