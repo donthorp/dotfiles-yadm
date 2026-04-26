@@ -4,14 +4,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Override become_ask_pass from ansible.cfg — container user has NOPASSWD sudo
 ENV ANSIBLE_BECOME_ASK_PASS=False
 
-# System packages needed by Ansible and common tasks
-RUN apt-get update && apt-get install -y \
+# Enable universe repo (required for ack, git-extras, fzf, etc.)
+# then install system packages needed by Ansible and common tasks
+RUN apt-get update && apt-get install -y software-properties-common \
+    && add-apt-repository universe \
+    && apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     sudo \
     curl \
     git \
-    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
 # Non-root user with passwordless sudo, mirroring a real workstation user
