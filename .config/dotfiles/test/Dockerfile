@@ -5,7 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV ANSIBLE_BECOME_ASK_PASS=False
 
 # Enable universe repo (required for ack, git-extras, fzf, etc.)
-# then install system packages needed by Ansible and common tasks
+# Keep apt lists — this is a test image, not production, and Ansible
+# needs them to resolve packages during --check dry-runs.
 RUN apt-get update && apt-get install -y software-properties-common \
     && add-apt-repository universe \
     && apt-get update && apt-get install -y \
@@ -13,8 +14,7 @@ RUN apt-get update && apt-get install -y software-properties-common \
     python3-pip \
     sudo \
     curl \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+    git
 
 # Non-root user with passwordless sudo, mirroring a real workstation user
 RUN useradd -m -s /bin/bash ansible && \
