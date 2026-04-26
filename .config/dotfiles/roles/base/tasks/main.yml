@@ -8,46 +8,66 @@
     dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
     mode: 0644
 
-# TODO: automate retrieval of architecture
-#
 - name: Add Github CLI APT Repository
+  become: true
   ansible.builtin.apt_repository:
     filename: github-cli
     repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+    update_cache: true
 
-- name: Update APT repository if needed
+- name: Install Docker GPG Key
   become: true
-  ansible.builtin.apt:
-    name: "*"
-    state: latest
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.gpg
+    mode: 0644
+
+- name: Add Docker APT Repository
+  become: true
+  ansible.builtin.apt_repository:
+    filename: docker
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    update_cache: true
 
 - name: Install Base Packages
   become: true
-  ansible.builtin.apt: 
+  ansible.builtin.apt:
     state: latest
-    pkg: 
-    - ack 
-    - autofs
-    - ca-certificates 
-    - curl
-    - dos2unix
-    - dirmngr
-    - fzf
-    - gawk
-    - gh
-    - git-extras
-    - gnupg
-    - inetutils-traceroute
-    - jq
-    - libfuse2
-    - lsb-release
-    - needrestart
-    - nfs-common
-    - openssh-server
-    - python3-pip
-    - ripgrep
-    - snapd 
+    pkg:
+      - ack
+      - autofs
+      - ca-certificates
+      - containerd.io
+      - curl
+      - docker-buildx-plugin
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose-plugin
+      - dos2unix
+      - dirmngr
+      - fzf
+      - gawk
+      - gh
+      - git-extras
+      - gnupg
+      - inetutils-traceroute
+      - jq
+      - libfuse2
+      - lsb-release
+      - needrestart
+      - nfs-common
+      - openssh-server
+      - python3-pip
+      - ripgrep
+      - snapd
   tags: base
+
+- name: Add current user to docker group
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: true
 
 - name: Install Snaps
   become: true
@@ -90,25 +110,16 @@
 - name: Download Fira Code Nerd Fonts
   become: false
   ansible.builtin.unarchive:
-    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/FiraCode.zip 
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/FiraCode.zip
     dest: ~/.local/share/fonts
     remote_src: yes
     creates: '~/.local/share/fonts/FiraCodeNerdFont-Regular.ttf'
   notify: fc-cache
   tags: base
 
-- name: Show user path vars
-  ansible.builtin.debug:
-    msg:
-      - "ansible_env.HOME={{ ansible_env.HOME | default('unset') }}"
-      - "ansible_user_dir={{ ansible_user_dir | default('unset') }}"
-      - "ansible_user_id={{ ansible_user_id | default('unset') }}"
 - name: Install Libre Clarendon fonts
   vars:
-    libre_clarendon_url: "https://codeload.github.com/impallari/Libre-Clarendon/zip/refs/heads/master"
     libre_clarendon_cache_dir: "{{ ansible_env.HOME }}/.cache/font-downloads"
-    libre_clarendon_zip: "{{ libre_clarendon_cache_dir }}/libre-clarendon-master.zip"
-    libre_clarendon_extract_dir: "{{ libre_clarendon_cache_dir }}/Libre-Clarendon-master"
     libre_clarendon_install_dir: "{{ ansible_env.HOME }}/.local/share/fonts/libre-clarendon"
   block:
     - name: Check whether Libre Clarendon is already installed
@@ -186,4 +197,3 @@
     creates: "{{ ansible_env.HOME }}/.local/share/fonts/inter/Inter.ttc"
   notify: fc-cache
   tags: fonts
-
