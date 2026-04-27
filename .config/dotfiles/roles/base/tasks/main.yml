@@ -80,27 +80,28 @@
   community.general.snap:
     name:
       - htop
-  tags: base
+  tags: [base, snap]
 
 - name: Install Edge Snaps
   community.general.snap:
     channel: "edge"
     name:
       - starship
-  tags: base
+  tags: [base, snap]
 
 - name: Install Classic Snaps
   community.general.snap:
     name:
       - espanso
     classic: true
-  tags: base
+  tags: [base, snap]
 
 - name: Configure Flatpak Repo - Flathub
   community.general.flatpak_remote:
     name: flathub
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  tags: flatpak
 
 # Font tasks from https://github.com/jahrik/ansible-nvim
 

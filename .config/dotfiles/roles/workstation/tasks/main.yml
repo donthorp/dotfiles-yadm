@@ -28,6 +28,7 @@
     method: user
     state: present
   when: install_discord
+  tags: flatpak
 
 - name: Configure and Install Wavebox
   include_tasks: ./roles/workstation/tasks/wavebox.yml
@@ -44,6 +45,7 @@
     method: user
     state: present
   when: install_obsidian
+  tags: flatpak
 
 - name: Install DBeaver Community
   become: false
@@ -52,6 +54,7 @@
     method: user
     state: present
   when: install_dbeaver
+  tags: flatpak
 
 - name: Install VLC
   become: false
@@ -60,6 +63,7 @@
     method: user
     state: present
   when: install_vlc
+  tags: flatpak
 
 - name: Install The Gimp
   become: false
@@ -68,6 +72,7 @@
     method: user
     state: present
   when: install_gimp
+  tags: flatpak
 
 - name: Install Converseen for Image Conversion
   become: true
@@ -83,6 +88,7 @@
     method: user
     state: present
   when: install_pdf_arranger
+  tags: flatpak
 
 - name: Install Parsec
   become: true
