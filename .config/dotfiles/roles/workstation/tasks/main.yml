@@ -3,9 +3,9 @@
 
 - name: Install GNOME Requirements
   become: true
-  ansible.builtin.apt: 
+  ansible.builtin.apt:
     state: latest
-    pkg: 
+    pkg:
       - dbus-x11
       - dconf-editor
       - xclip
@@ -19,25 +19,24 @@
   ansible.builtin.apt:
     state: latest
     pkg: mpg123
+  when: install_mpg123
 
 - name: Install Discord
   become: false
-  community.general.flatpak: 
+  community.general.flatpak:
     name: com.discordapp.Discord
     method: user
-    state: present 
-
-- name: Install Slack 
-  become: true
-  ansible.builtin.apt: 
-    state: absent
-    pkg: slack-desktop 
+    state: present
+  when: install_discord
+  tags: flatpak
 
 - name: Configure and Install Wavebox
   include_tasks: ./roles/workstation/tasks/wavebox.yml
+  when: install_wavebox
 
 - name: Configure and Install ULauncher
   include_tasks: ./roles/workstation/tasks/ulauncher.yml
+  when: install_ulauncher
 
 - name: Install Obsidian
   become: false
@@ -45,9 +44,17 @@
     name: md.obsidian.Obsidian
     method: user
     state: present
+  when: install_obsidian
+  tags: flatpak
 
-#- name: DBeaver
-#  include_tasks: ./roles/workstation/tasks/dbeaver.yml
+- name: Install DBeaver Community
+  become: false
+  community.general.flatpak:
+    name: io.dbeaver.DBeaverCommunity
+    method: user
+    state: present
+  when: install_dbeaver
+  tags: flatpak
 
 - name: Install VLC
   become: false
@@ -55,6 +62,8 @@
     name: org.videolan.VLC
     method: user
     state: present
+  when: install_vlc
+  tags: flatpak
 
 - name: Install The Gimp
   become: false
@@ -62,44 +71,35 @@
     name: org.gimp.GIMP
     method: user
     state: present
+  when: install_gimp
+  tags: flatpak
 
 - name: Install Converseen for Image Conversion
   become: true
   ansible.builtin.apt:
     state: latest
     pkg: converseen
+  when: install_converseen
 
-- name: Install PDF Arranger for Simple PDF manipulation
+- name: Install PDF Arranger
   become: false
   community.general.flatpak:
     name: com.github.jeromerobert.pdfarranger
     method: user
-    state: absent
-
-# - name: Include InsyncHQ
-#  include_tasks: ./roles/workstation/tasks/insynchq.yml
-
-- name: Install Hugo
-  become: true
-  community.general.snap:
-    name:
-      - hugo
-    state: absent
-
-#- name: Install Node.js
-#  become: true
-#  community.general.snap:
-#    name: node
-#    channel: "16/stable"
-#    classic: true
+    state: present
+  when: install_pdf_arranger
+  tags: flatpak
 
 - name: Install Parsec
   become: true
-  apt:
+  ansible.builtin.apt:
     deb: https://builds.parsec.app/package/parsec-linux.deb
+  when: install_parsec
 
 - name: Install Inkscape
   include_tasks: ./roles/workstation/tasks/inkscape.yml
+  when: install_inkscape
 
 - name: Configure and Install Syncthing
   include_tasks: ./roles/workstation/tasks/syncthing.yml
+  when: install_syncthing

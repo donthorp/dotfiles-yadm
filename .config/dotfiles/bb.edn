@@ -3,21 +3,38 @@
 {:tasks
  {:requires ([babashka.fs :as fs])
 
+  ;; ── Maintenance ─────────────────────────────────────────────────────────────
+
   clean {:doc "Clean up temporary files"
          :task (when (fs/directory? ".ansible") (fs/delete-tree ".ansible"))}
 
   init {:doc "Pull requirements from Ansible Galaxy"
         :task (shell "ansible-galaxy install -r requirements.yml")}
-  
-  check {:doc "Check main playbook"
-         :task (shell "ansible-playbook --check main.yml")}
- 
+
+  ;; ── Install ──────────────────────────────────────────────────────────────────
+
   install-base {:doc "Install base packages"
                 :task (shell "ansible-playbook main.yml --tags base")}
 
-  install-devops {:doc "Install DevOps related tooling"
-                  :task (shell "ansible-playbook main.yml --tags base,devops")}
+  install-workstation {:doc "Install base + workstation packages"
+                       :task (shell "ansible-playbook main.yml --tags base,workstation")}
 
-  install-workstation {:doc "Install workstation packages"
-                :task (shell "ansible-playbook main.yml --tags=base,workstation")}
+  ;; ── Test (requires Docker) ───────────────────────────────────────────────────
+  ;; Only the base play (base + neovim + babashka roles) is exercised in Docker.
+  ;; The workstation play requires a live GNOME session (dconf), flatpak, and
+  ;; snap — none of which work in a headless container. Test those on a real machine.
+
+  test-build {:doc "Build the Docker test image"
+              :task (shell "docker build -t dotfiles-test -f test/Dockerfile .")}
+
+  test-clean {:doc "Remove the Docker test image"
+              :task (shell "docker rmi dotfiles-test")}
+
+  test-syntax {:doc "Syntax check the full playbook in Docker"
+               :depends [test-build]
+               :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml --force && ansible-playbook --syntax-check main.yml'"))}
+
+  test-check {:doc "Dry-run the base play in Docker (no changes applied)"
+              :depends [test-build]
+              :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml --force && ansible-playbook --check --tags base --skip-tags snap,flatpak main.yml'"))}
  }}

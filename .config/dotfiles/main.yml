@@ -1,28 +1,14 @@
 ---
-- name: "Don Dotfiles Host"
-  hosts: localhost
-  connection: local
-  vars:
-    neovim_nvim_version: stable
+- name: Base
+  hosts: workstations
   roles:
     - base
     - neovim
     - babashka
   tags: base
 
-- name: DevOps
-  hosts: localhost
-  connection: local
-  become: false
-  roles:
-    - devops
-    - role: terraform
-      become: true
-  tags: devops
-
 - name: Workstation
-  hosts: localhost
-  connection: local
+  hosts: workstations
   become: false
   roles:
     - workstation
