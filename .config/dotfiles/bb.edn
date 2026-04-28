@@ -13,11 +13,14 @@
 
   ;; ── Install ──────────────────────────────────────────────────────────────────
 
-  install-base {:doc "Install base packages"
-                :task (shell "ansible-playbook main.yml --tags base")}
+  install-base {:doc "Install base packages on this machine"
+                :task (shell "bash -c 'ansible-playbook main.yml --tags base -l $(hostname -s)'")}
 
-  install-workstation {:doc "Install base + workstation packages"
-                       :task (shell "ansible-playbook main.yml --tags base,workstation")}
+  install-workstation {:doc "Install base + workstation packages on this machine"
+                       :task (shell "bash -c 'ansible-playbook main.yml -l $(hostname -s)'")}
+
+  install-inference {:doc "Install base packages on this inference node"
+                     :task (shell "bash -c 'ansible-playbook main.yml -l $(hostname -s)'")}
 
   ;; ── Test (requires Docker) ───────────────────────────────────────────────────
   ;; Only the base play (base + neovim + babashka roles) is exercised in Docker.
@@ -32,9 +35,9 @@
 
   test-syntax {:doc "Syntax check the full playbook in Docker"
                :depends [test-build]
-               :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml --force && ansible-playbook --syntax-check main.yml'"))}
+               :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml --force && ansible-playbook --syntax-check -i test/inventory.yml main.yml'"))}
 
   test-check {:doc "Dry-run the base play in Docker (no changes applied)"
               :depends [test-build]
-              :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml --force && ansible-playbook --check --tags base --skip-tags snap,flatpak main.yml'"))}
+              :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml --force && ansible-playbook --check --tags base --skip-tags snap,flatpak -i test/inventory.yml main.yml'"))}
  }}

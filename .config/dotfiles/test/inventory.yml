@@ -1,0 +1,11 @@
+---
+all:
+  children:
+    workstations:
+      hosts:
+        localhost:
+          ansible_connection: local
+    inference:
+      hosts:
+        localhost:
+          ansible_connection: local
