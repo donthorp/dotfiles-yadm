@@ -13,3 +13,10 @@
   roles:
     - workstation
   tags: workstation
+
+- name: Inference
+  hosts: inference
+  roles:
+    - base
+    - neovim
+  tags: inference
