@@ -1,0 +1,16 @@
+---
+- name: update-grub
+  become: true
+  ansible.builtin.command: update-grub
+  changed_when: true
+
+- name: reload systemd
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: restart ollama
+  become: true
+  ansible.builtin.systemd:
+    name: ollama
+    state: restarted

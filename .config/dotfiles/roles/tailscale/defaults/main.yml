@@ -1,0 +1,6 @@
+---
+# tailscale_auth_key is intentionally absent here.
+# Set it in ~/.local/secrets/ (sourced by .bashrc) to enable unattended auth:
+#   export tailscale_auth_key=tskey-auth-...
+# If unset, the daemon is installed and started but tailscale up is skipped.
+tailscale_auth_key: ""

@@ -1,17 +1,18 @@
 ---
-# Workstation tools — override in host_vars or group_vars
-install_mpg123: true
-install_discord: true
-install_wavebox: true
-install_ulauncher: true
-install_obsidian: true
-install_vlc: true
-install_gimp: true
-install_converseen: true
-install_parsec: true
-install_inkscape: true
-install_syncthing: true
+# Workstation app install flags — all opt-in.
+# Set fleet defaults in inventory/group_vars/workstations.yml.
+# Override per-host in inventory/host_vars/<hostname>.yml.
 
-# Off by default — enable per host
+install_mpg123: false
+install_discord: false
+install_wavebox: false
+install_ulauncher: false
+install_obsidian: false
+install_vlc: false
+install_gimp: false
+install_converseen: false
+install_parsec: false
+install_inkscape: false
+install_syncthing: false
 install_dbeaver: false
 install_pdf_arranger: false

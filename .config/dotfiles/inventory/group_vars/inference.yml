@@ -1,0 +1,17 @@
+---
+# Defaults for all inference nodes.
+# Override per-host in inventory/host_vars/<hostname>.yml.
+
+# ROCm
+inference_enable_rocm: true
+rocm_grub_cmdline: "quiet splash amdgpu.sg_display=0"
+
+# Ollama — defaults to localhost; uses tailscale_ip from host_vars when set
+ollama_listen_address: "{{ tailscale_ip if tailscale_ip | default('') else '127.0.0.1' }}"
+ollama_port: 11434
+
+# Cockpit — defaults to all interfaces; uses tailscale_ip from host_vars when set
+cockpit_bind_address: "{{ tailscale_ip | default('') }}"
+
+# NPU (Lemonade + FastFlowLM) — experimental, off by default
+inference_enable_npu: false

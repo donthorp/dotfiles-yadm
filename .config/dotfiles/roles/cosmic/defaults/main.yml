@@ -1,0 +1,8 @@
+---
+# COSMIC terminal font settings
+cosmic_term_font_name: "FiraCode Nerd Font Mono"
+cosmic_term_font_size: 12.0
+
+# COSMIC config base directory (XDG standard)
+cosmic_config_dir: "{{ ansible_env.HOME }}/.config/cosmic"
+cosmic_term_config_dir: "{{ ansible_env.HOME }}/.config/com.system76.CosmicTerm"

@@ -1,18 +1,6 @@
 ---
-# tasks file for workstation
-
-- name: Install GNOME Requirements
-  become: true
-  ansible.builtin.apt:
-    state: latest
-    pkg:
-      - dbus-x11
-      - dconf-editor
-      - xclip
-      - xsel
-
-- name: Include GNOME/DCONF Settings
-  include_tasks: ./roles/workstation/tasks/gnome.yml
+# Workstation app installs — DE-agnostic.
+# Desktop environment configuration is handled by the gnome or cosmic role.
 
 - name: Install mpg123
   become: true

@@ -1,0 +1,48 @@
+---
+# Ollama — convenience layer over llama.cpp/ROCm.
+# Runs as a systemd service; binds to localhost or Tailscale IP (never 0.0.0.0).
+
+- name: Check if Ollama is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/ollama
+  register: ollama_binary
+  tags: inference
+
+- name: Install Ollama
+  become: true
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://ollama.com/install.sh | sh
+  environment:
+    OLLAMA_HOST: "{{ ollama_listen_address }}:{{ ollama_port }}"
+  when: not ollama_binary.stat.exists
+  changed_when: true
+  tags: inference
+
+- name: Create Ollama systemd override directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/systemd/system/ollama.service.d
+    state: directory
+    mode: "0755"
+  tags: inference
+
+- name: Configure Ollama bind address via systemd override
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/ollama.service.d/override.conf
+    content: |
+      [Service]
+      Environment="OLLAMA_HOST={{ ollama_listen_address }}:{{ ollama_port }}"
+    mode: "0644"
+  notify:
+    - reload systemd
+    - restart ollama
+  tags: inference
+
+- name: Enable and start Ollama service
+  become: true
+  ansible.builtin.systemd:
+    name: ollama
+    enabled: true
+    state: started
+  tags: inference

@@ -1,0 +1,29 @@
+---
+# NPU path via XDNA 3 (Ryzen AI Max+ 395) using Lemonade + FastFlowLM.
+# Linux support added March 2026; treat as experimental.
+# Enabled only when inference_enable_npu: true in host_vars.
+
+- name: Install NPU kernel support packages
+  become: true
+  ansible.builtin.apt:
+    state: present
+    pkg:
+      - xdna-driver
+  failed_when: false
+  tags: [inference, npu]
+
+- name: Check if Lemonade is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/lemonade
+  register: lemonade_binary
+  tags: [inference, npu]
+
+- name: Install Lemonade server
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      LATEST=$(curl -fsSL https://api.github.com/repos/lemonade-hq/lemonade/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4)
+      curl -fsSL "$LATEST" -o /tmp/lemonade && install -m 755 /tmp/lemonade /usr/local/bin/lemonade
+  when: not lemonade_binary.stat.exists
+  changed_when: true
+  tags: [inference, npu]
