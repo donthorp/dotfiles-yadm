@@ -2,30 +2,35 @@
 
 ## Configure Host Name
 
-Use artemisNN for desktop machines.
+| Class | Hardware | Naming | Test/Dev |
+|---|---|---|---|
+| artemis | desktop workstation | artemisNN | artemis90–99 |
+| boros | laptop workstation | borosNN | boros90–99 |
+| vedfolnir | inference desktop | vedfolnirNN | vedfolnir90–99 |
+
+Suffix 90–99 is reserved for test and development machines in each class.
 
 ```bash
-sudo hostnamectl set-hostname artemis03
-```
-
-Use borosNN for laptops
-
-```bash
-sudo hostnamectl set-hostname boros02
-```
-
-Use hermesNN for virtual machines
-
-```bash
-sudo hostnamectl set-hostname hermes01
+sudo hostnamectl set-hostname artemis01   # example
 ```
 
 ## Used Names
-- boros01,boros01a (rebuild) - Oryx Pro
-- artemis01 - Gaming Machine - 23 Aug 2022
-- hermes01 - Development VM for new dot files
-- artemis02 - Minisforum Desktop UM690 32 GB RAM, 1 TB M2 - 29 Apr 2023
-- boros03 - Framwork 13 AMD - 12 Nov 2025
+
+### artemis — desktop workstations
+- artemis01 - Gaming Machine (Pop!_OS, GNOME) - 23 Aug 2022
+- artemis02 - Minisforum UM690, 32 GB RAM, 1 TB M.2 (Pop!_OS, GNOME) - 29 Apr 2023
+- artemis90 - GNOME Boxes test VM (Pop!_OS 22.04, GNOME) - Apr 2026
+
+### boros — laptop workstations
+- boros01, boros01a (rebuild) - System76 Oryx Pro
+- boros02 - laptop workstation (Pop!_OS, GNOME)
+- boros03 - Framework 13 AMD (Pop!_OS, GNOME) - 12 Nov 2025
+
+### vedfolnir — inference desktops
+- vedfolnir00 - Framework Desktop, Ryzen AI Max+ 395 (Pop!_OS 24.04, COSMIC) - 2026
+
+### retired
+- hermes01 - Development VM (hermes naming retired; use xx90–99 convention)
 
 ## Bootstrap
 
@@ -60,6 +65,32 @@ ssh -T github.com
 ```bash
 yadm bootstrap
 ```
+## Claude Code
+
+Install after bootstrap (Node.js is pulled in by the common play):
+
+```bash
+npm install -g @anthropic/claude-code
+```
+
+A standalone installer that bundles its own Node.js runtime is also available — see the [Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code) if npm is not yet available on the machine.
+
+Project memory and settings are already in place from yadm — no extra setup needed after install.
+
+## VM / GNOME Boxes
+
+### Display resolution (SPICE)
+
+On a fresh VM **before** running bootstrap, the display may appear as a small fixed-size square. Fix it manually before cloning:
+
+```bash
+sudo apt install spice-vdagent
+```
+
+Log out and back in. GNOME Boxes will auto-resize the display to match the window from that point on.
+
+> Bootstrap handles this automatically on subsequent bootstraps — `000-Virtual-Machine-Drivers` installs `spice-vdagent` and `spice-webdavd` when it detects QEMU hardware.
+
 ### YADM Diff Issue
 
 If there is a conflict in `.bashrc` you **might** need to checkout .bashrc specifically to solve it and get any updates made remotely.
