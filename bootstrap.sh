@@ -1,6 +1,21 @@
 #! /usr/bin/env bash
 
-# Please set the hostname of the machine BEFORE bootstrapping
+# Naming convention:
+#   artemisNN   — desktop workstation
+#   borosNN     — laptop workstation
+#   vedfolnirNN — inference desktop
+#   xx90-99     — test/dev machines in each class
+
+current=$(hostname -s)
+echo "Current hostname: $current"
+read -rp "New hostname (leave blank to keep '$current'): " new_hostname
+
+if [[ -n "$new_hostname" && "$new_hostname" != "$current" ]]; then
+  sudo hostnamectl set-hostname "$new_hostname"
+  echo "Hostname set to: $new_hostname"
+else
+  echo "Keeping hostname: $current"
+fi
 
 which yadm > /dev/null
 

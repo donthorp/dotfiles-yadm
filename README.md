@@ -67,13 +67,7 @@ yadm bootstrap
 ```
 ## Claude Code
 
-Install after bootstrap (Node.js is pulled in by the common play):
-
-```bash
-npm install -g @anthropic/claude-code
-```
-
-A standalone installer that bundles its own Node.js runtime is also available — see the [Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code) if npm is not yet available on the machine.
+Use the standalone installer — it bundles its own Node.js runtime and works on a fresh machine before Ansible has run. See the [Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code) for the current install command.
 
 Project memory and settings are already in place from yadm — no extra setup needed after install.
 
