@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Claude Code status line - derived from ~/.bashrc PS1
+# Original PS1: \[\033[01;32m\]\u@\h\[\033[00m\][L${SHLVL}|?$?]:\[\033[01;34m\]\w\[\033[00m\]\n\$
+input=$(cat)
+cwd=$(echo "$input" | jq -r '.workspace.current_dir')
+printf '\033[01;32m%s@%s\033[00m:\033[01;34m%s\033[00m' \
+  "$(whoami)" "$(hostname -s)" "$cwd"
