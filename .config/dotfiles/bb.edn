@@ -8,7 +8,8 @@
   clean {:doc "Clean up temporary files"
          :task (when (fs/directory? ".ansible") (fs/delete-tree ".ansible"))}
 
-  init {:doc "Pull requirements from Ansible Galaxy"
+  init {:doc "Pull requirements from Ansible Galaxy (clean cache first)"
+        :depends [clean]
         :task (shell "ansible-galaxy install -r requirements.yml")}
 
   ;; ── Install ──────────────────────────────────────────────────────────────────
