@@ -26,7 +26,7 @@ done
 # Always run common play on bootstrap
 
 cd ~/.config/dotfiles
-ansible-playbook main.yml --tags common
+ansible-playbook main.yml --tags common -l $(hostname -s)
 cd -
 
 echo "======================================================"
