@@ -1,18 +1,36 @@
 ---
+- name: Stop packagekitd to release APT lock
+  become: true
+  ansible.builtin.systemd:
+    name: packagekit
+    state: stopped
+  failed_when: false
+  tags: [common, tailscale]
+
 - name: Install Tailscale GPG key
   become: true
-  ansible.builtin.get_url:
-    url: https://pkgs.tailscale.com/stable/ubuntu/noble.gpg
-    dest: /etc/apt/keyrings/tailscale.gpg
-    mode: "0644"
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/{{ ansible_distribution_release }}.gpg | gpg --yes --dearmor -o /usr/share/keyrings/tailscale-archive-keyring.gpg
+  changed_when: false
   tags: [common, tailscale]
 
 - name: Add Tailscale APT repository
   become: true
-  ansible.builtin.apt_repository:
-    filename: tailscale
-    repo: "deb [signed-by=/etc/apt/keyrings/tailscale.gpg] https://pkgs.tailscale.com/stable/ubuntu {{ ansible_distribution_release }} main"
-    update_cache: true
+  ansible.builtin.copy:
+    content: "deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu {{ ansible_distribution_release }} main\n"
+    dest: /etc/apt/sources.list.d/tailscale.list
+    mode: "0644"
+  tags: [common, tailscale]
+
+- name: Update apt cache
+  become: true
+  ansible.builtin.shell:
+    cmd: apt-get update
+  register: apt_update
+  changed_when: false
+  failed_when: >
+    apt_update.rc != 0 and
+    'pkgs.tailscale.com' in apt_update.stderr
   tags: [common, tailscale]
 
 - name: Install Tailscale

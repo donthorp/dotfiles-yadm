@@ -77,23 +77,29 @@
 
 - name: Install Snaps
   become: true
-  community.general.snap:
-    name:
-      - htop
+  ansible.builtin.command:
+    cmd: snap install {{ item }}
+    creates: /snap/{{ item }}
+  loop:
+    - htop
   tags: [base, snap]
 
 - name: Install Edge Snaps
-  community.general.snap:
-    channel: "edge"
-    name:
-      - starship
+  become: true
+  ansible.builtin.command:
+    cmd: snap install --edge {{ item }}
+    creates: /snap/{{ item }}
+  loop:
+    - starship
   tags: [base, snap]
 
 - name: Install Classic Snaps
-  community.general.snap:
-    name:
-      - espanso
-    classic: true
+  become: true
+  ansible.builtin.command:
+    cmd: snap install --classic {{ item }}
+    creates: /snap/{{ item }}
+  loop:
+    - espanso
   tags: [base, snap]
 
 - name: Configure Flatpak Repo - Flathub
