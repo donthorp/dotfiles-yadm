@@ -6,6 +6,7 @@
 tailscale_ip: ""
 
 # Per-host app overrides — trim the install set for a test VM
+install_espanso: false
 install_parsec: false
 install_wavebox: false
 install_ulauncher: false

@@ -1,14 +1,7 @@
 ---
 
-- name: Add Ulauncher PPA
-  become: true
-  ansible.builtin.apt_repository:
-    repo: ppa:agornostal/ulauncher
-    update_cache: true
-
 - name: Install Ulauncher
-  become: true
-  ansible.builtin.apt: 
-    state: latest
-    pkg:
-      - ulauncher
+  community.general.flatpak:
+    name: io.ulauncher.ulauncher
+    state: present
+    remote: flathub

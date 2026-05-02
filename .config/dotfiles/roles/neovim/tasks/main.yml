@@ -36,7 +36,6 @@
     path: "{{ lookup('env','HOME') }}/.local/bin/nvim-linux-x86_64.appimage"
     link: /usr/bin/{{ item }}
     priority: 110
-    state: present
   loop:
   - ex
   - vi

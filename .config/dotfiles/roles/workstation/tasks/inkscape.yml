@@ -1,14 +1,7 @@
 ---
 
-- name: Add Inkscape PPA
-  become: true
-  ansible.builtin.apt_repository:
-    repo: ppa:inkscape.dev/stable
-    update_cache: true
-
 - name: Install Inkscape
-  become: true
-  ansible.builtin.apt: 
-    state: latest
-    pkg:
-      - inkscape 
+  community.general.flatpak:
+    name: org.inkscape.Inkscape
+    state: present
+    remote: flathub

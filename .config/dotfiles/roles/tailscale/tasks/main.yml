@@ -7,11 +7,20 @@
   failed_when: false
   tags: [common, tailscale]
 
-- name: Install Tailscale GPG key
+- name: Download Tailscale GPG key
   become: true
-  ansible.builtin.shell:
-    cmd: curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/{{ ansible_distribution_release }}.gpg | gpg --yes --dearmor -o /usr/share/keyrings/tailscale-archive-keyring.gpg
-  changed_when: false
+  ansible.builtin.get_url:
+    url: https://pkgs.tailscale.com/stable/ubuntu/{{ ansible_distribution_release }}.gpg
+    dest: /tmp/tailscale.gpg.asc
+    mode: "0644"
+    force: true
+  tags: [common, tailscale]
+
+- name: Dearmor Tailscale GPG key
+  become: true
+  ansible.builtin.command:
+    cmd: gpg --yes --dearmor -o /usr/share/keyrings/tailscale-archive-keyring.gpg /tmp/tailscale.gpg.asc
+    creates: /usr/share/keyrings/tailscale-archive-keyring.gpg
   tags: [common, tailscale]
 
 - name: Add Tailscale APT repository
@@ -24,13 +33,9 @@
 
 - name: Update apt cache
   become: true
-  ansible.builtin.shell:
-    cmd: apt-get update
-  register: apt_update
-  changed_when: false
-  failed_when: >
-    apt_update.rc != 0 and
-    'pkgs.tailscale.com' in apt_update.stderr
+  ansible.builtin.apt:
+    update_cache: true
+  failed_when: false
   tags: [common, tailscale]
 
 - name: Install Tailscale
