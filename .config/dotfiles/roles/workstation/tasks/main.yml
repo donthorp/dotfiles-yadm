@@ -1,18 +1,16 @@
 ---
-# tasks file for workstation
+# Workstation app installs — DE-agnostic.
+# Desktop environment configuration is handled by the gnome or cosmic role.
 
-- name: Install GNOME Requirements
+- name: Remove retired Launchpad PPAs
   become: true
-  ansible.builtin.apt:
-    state: latest
-    pkg:
-      - dbus-x11
-      - dconf-editor
-      - xclip
-      - xsel
-
-- name: Include GNOME/DCONF Settings
-  include_tasks: ./roles/workstation/tasks/gnome.yml
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: absent
+    update_cache: false
+  loop:
+    - ppa:inkscape.dev/stable
+    - ppa:agornostal/ulauncher
 
 - name: Install mpg123
   become: true

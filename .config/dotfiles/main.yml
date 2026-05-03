@@ -1,22 +1,36 @@
 ---
-- name: Base
-  hosts: workstations
+- name: Common
+  hosts: managed
   roles:
     - base
     - neovim
-    - babashka
-  tags: base
+    - tailscale
+  tags: common
 
 - name: Workstation
   hosts: workstations
   become: false
   roles:
+    - babashka
     - workstation
   tags: workstation
+
+- name: GNOME Desktop
+  hosts: gnome
+  become: false
+  roles:
+    - gnome
+  tags: gnome
+
+- name: COSMIC Desktop
+  hosts: cosmic
+  become: false
+  roles:
+    - cosmic
+  tags: cosmic
 
 - name: Inference
   hosts: inference
   roles:
-    - base
-    - neovim
+    - inference
   tags: inference

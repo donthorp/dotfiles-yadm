@@ -1,0 +1,18 @@
+---
+# ROCm
+inference_enable_rocm: true
+# Kernel cmdline added to GRUB_CMDLINE_LINUX_DEFAULT.
+# sg_display=0 allows the iGPU to access system RAM beyond the display
+# frame buffer reservation, enabling large unified VRAM allocations via TTM.
+rocm_grub_cmdline: "quiet splash amdgpu.sg_display=0"
+
+# Ollama
+ollama_listen_address: "127.0.0.1"
+ollama_port: 11434
+
+# Cockpit
+# Empty string binds to all interfaces; set to Tailscale IP to restrict.
+cockpit_bind_address: ""
+
+# NPU (XDNA 3 via Lemonade + FastFlowLM) — off by default; experimental
+inference_enable_npu: false

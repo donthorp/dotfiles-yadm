@@ -1,0 +1,9 @@
+---
+tailscale_ip: "100.65.77.117"
+
+# Per-host app overrides — uncomment to override group_vars/workstations.yml defaults
+# install_inkscape: false
+# install_discord: false
+# install_parsec: false
+# install_dbeaver: true
+# install_pdf_arranger: true

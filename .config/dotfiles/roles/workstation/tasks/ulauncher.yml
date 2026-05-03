@@ -1,14 +1,36 @@
 ---
 
-- name: Add Ulauncher PPA
-  become: true
-  ansible.builtin.apt_repository:
-    repo: ppa:agornostal/ulauncher
-    update_cache: true
+- name: Get latest ULauncher release
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/Ulauncher/Ulauncher/releases/latest
+    return_content: true
+  register: ulauncher_github
 
-- name: Install Ulauncher
-  become: true
-  ansible.builtin.apt: 
-    state: latest
-    pkg:
-      - ulauncher
+- name: Set ULauncher version fact
+  ansible.builtin.set_fact:
+    ulauncher_latest: "{{ ulauncher_github.json.tag_name | regex_replace('^v', '') }}"
+
+- name: Check installed ULauncher version
+  ansible.builtin.command: dpkg-query -W -f='${Version}' ulauncher
+  register: ulauncher_installed
+  failed_when: false
+  changed_when: false
+
+- name: Check if installed version is older than latest
+  ansible.builtin.command: dpkg --compare-versions "{{ ulauncher_installed.stdout }}" lt "{{ ulauncher_latest }}"
+  register: ulauncher_outdated
+  failed_when: false
+  changed_when: false
+  when: ulauncher_installed.rc == 0
+
+- name: Download ULauncher deb
+  ansible.builtin.get_url:
+    url: "{{ ulauncher_github.json.assets | selectattr('name', 'match', '.*\\.deb$') | map(attribute='browser_download_url') | first }}"
+    dest: "/tmp/ulauncher_{{ ulauncher_latest }}.deb"
+    mode: "0644"
+  when: ulauncher_installed.rc != 0 or ulauncher_outdated.rc == 0
+
+- name: Install ULauncher deb
+  ansible.builtin.apt:
+    deb: "/tmp/ulauncher_{{ ulauncher_latest }}.deb"
+  when: ulauncher_installed.rc != 0 or ulauncher_outdated.rc == 0

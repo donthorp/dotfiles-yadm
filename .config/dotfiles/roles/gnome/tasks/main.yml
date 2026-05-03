@@ -1,24 +1,38 @@
 ---
-# configuration settings for GNOME/Pop OS
-# TODO: fix to detect different environments
+# GNOME desktop configuration.
+# Runs on hosts in the 'gnome' inventory group only.
 
-- name: Install Python Module - psutil for dconf tasks
+- name: Install GNOME requirements
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    pkg:
+      - dbus-x11
+      - dconf-editor
+      - xclip
+      - xsel
+  tags: gnome
+
+- name: Install Python module psutil for dconf tasks
   ansible.builtin.pip:
     name: psutil
+  tags: gnome
 
-- name: Configure Terminal to use System Theme
+- name: Configure GNOME Terminal to use system theme colors
   community.general.dconf:
     key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/use-theme-colors"
     value: "true"
+  tags: gnome
 
-- name: Configure Terminal to use a Nerd Font
+- name: Configure GNOME Terminal font to FiraCode Nerd Font
   community.general.dconf:
     key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/font"
     value: "'FiraCode Nerd Font Mono 12'"
+  tags: gnome
 
-- name: Customize Gnome
+- name: Apply GNOME customizations via customize_gnome role
   include_role:
-    name: gnome
+    name: customize_gnome
   vars:
     gnome_user: "{{ ansible_env.USER }}"
     gnome_gsettings:
@@ -27,8 +41,8 @@
         value: "true"
         state: present
 
-      # Screen Shots
-      - schema: org.gnome.shell.keybindings 
+      # Screenshot keybindings
+      - schema: org.gnome.shell.keybindings
         key: screenshot
         value: '"[''<Primary><Shift>Print'', ''<Shift><Alt>dollar'']"'
         state: present
@@ -36,14 +50,10 @@
         key: screenshot-window
         value: '"[''<Primary><Alt>Print'', ''<Shift><Alt>percent'']"'
         state: present
-      - schema: org.gnome.shell.keybindings
-        key: screenshot
-        value: '"[''Print'', ''<Shift><Alt>dollar'']"'
-        state: present
 
-      # Desktop
+      # Window management
       - schema: org.gnome.desktop.wm.keybindings
         key: activate-window-menu
         value: '"[''<Super>space'']"'
         state: present
-
+  tags: gnome

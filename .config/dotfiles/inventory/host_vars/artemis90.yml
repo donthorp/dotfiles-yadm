@@ -1,0 +1,12 @@
+---
+# artemis90 — test workstation VM (artemis class, Pop!_OS 22.04 + GNOME)
+# Used to validate workstation/gnome plays before applying to production fleet.
+
+# tailscale_ip set once the VM joins the network
+tailscale_ip: ""
+
+# Per-host app overrides — trim the install set for a test VM
+install_espanso: false
+install_parsec: false
+install_wavebox: false
+install_ulauncher: false

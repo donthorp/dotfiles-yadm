@@ -1,0 +1,53 @@
+---
+# Cockpit web UI — socket-activated, not always-on service.
+# Restricts bind address to Tailscale interface when cockpit_bind_address is set.
+
+- name: Install Cockpit
+  become: true
+  ansible.builtin.apt:
+    state: present
+    pkg:
+      - cockpit
+  tags: [inference, network]
+
+- name: Create Cockpit config directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/cockpit
+    state: directory
+    mode: "0755"
+  tags: [inference, network]
+
+- name: Configure Cockpit bind address
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/cockpit/cockpit.conf
+    content: |
+      [WebService]
+      {% if cockpit_bind_address %}
+      # Restricted to Tailscale interface — update when IP changes.
+      BindAddress={{ cockpit_bind_address }}
+      {% else %}
+      # Binds to all interfaces. Set cockpit_bind_address in host_vars
+      # to restrict to the Tailscale IP once it's known.
+      {% endif %}
+      # Uncomment to allow http (Tailscale handles encryption at network layer):
+      # AllowUnencrypted=true
+    mode: "0644"
+  tags: [inference, network]
+
+- name: Enable Cockpit via socket activation (not always-on service)
+  become: true
+  ansible.builtin.systemd:
+    name: cockpit.socket
+    enabled: true
+    state: started
+  tags: [inference, network]
+
+- name: Ensure cockpit.service is not independently enabled
+  become: true
+  ansible.builtin.systemd:
+    name: cockpit.service
+    enabled: false
+  failed_when: false
+  tags: [inference, network]

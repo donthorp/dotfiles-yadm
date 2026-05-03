@@ -8,24 +8,28 @@
   clean {:doc "Clean up temporary files"
          :task (when (fs/directory? ".ansible") (fs/delete-tree ".ansible"))}
 
-  init {:doc "Pull requirements from Ansible Galaxy"
+  init {:doc "Pull requirements from Ansible Galaxy (clean cache first)"
+        :depends [clean]
         :task (shell "ansible-galaxy install -r requirements.yml")}
 
   ;; ── Install ──────────────────────────────────────────────────────────────────
 
-  install-base {:doc "Install base packages on this machine"
-                :task (shell "bash -c 'ansible-playbook main.yml --tags base -l $(hostname -s)'")}
+  install-common {:doc "Install common packages on this machine (base + neovim)"
+                  :task (shell "bash -c 'ansible-playbook main.yml --tags common -l $(hostname -s)'")}
 
   install-workstation {:doc "Install base + workstation packages on this machine"
-                       :task (shell "bash -c 'ansible-playbook main.yml -l $(hostname -s)'")}
+                       :task (shell "bash -c 'ansible-playbook main.yml --tags common,workstation,gnome,cosmic -l $(hostname -s)'")}
 
-  install-inference {:doc "Install base packages on this inference node"
-                     :task (shell "bash -c 'ansible-playbook main.yml -l $(hostname -s)'")}
+  install-inference {:doc "Install inference stack on this node"
+                     :task (shell "bash -c 'ansible-playbook main.yml --tags common,inference -l $(hostname -s)'")}
+
+  install-all {:doc "Run all applicable plays for this machine"
+               :task (shell "bash -c 'ansible-playbook main.yml -l $(hostname -s)'")}
 
   ;; ── Test (requires Docker) ───────────────────────────────────────────────────
-  ;; Only the base play (base + neovim + babashka roles) is exercised in Docker.
-  ;; The workstation play requires a live GNOME session (dconf), flatpak, and
-  ;; snap — none of which work in a headless container. Test those on a real machine.
+  ;; Only the common play (base + neovim roles) is exercised in Docker.
+  ;; The workstation, gnome, and cosmic plays require a live desktop session.
+  ;; The inference play requires ROCm-capable hardware.
 
   test-build {:doc "Build the Docker test image"
               :task (shell "docker build -t dotfiles-test -f test/Dockerfile .")}
@@ -37,7 +41,7 @@
                :depends [test-build]
                :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml --force && ansible-playbook --syntax-check -i test/inventory.yml main.yml'"))}
 
-  test-check {:doc "Dry-run the base play in Docker (no changes applied)"
+  test-check {:doc "Dry-run the common play in Docker (no changes applied)"
               :depends [test-build]
-              :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml --force && ansible-playbook --check --tags base --skip-tags snap,flatpak -i test/inventory.yml main.yml'"))}
+              :task (shell (str "docker run --rm -v " (fs/cwd) ":/ansible dotfiles-test bash -c 'ansible-galaxy install -r requirements.yml --force && ansible-playbook --check --tags common --skip-tags snap,flatpak,tailscale -i test/inventory.yml main.yml'"))}
  }}

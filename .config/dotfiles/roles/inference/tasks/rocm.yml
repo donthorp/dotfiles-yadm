@@ -1,0 +1,72 @@
+---
+# ROCm driver and runtime installation.
+# This is the OS-level layer; inference software depends on it.
+# Target: gfx1151 (Radeon 890M iGPU in Ryzen AI Max+ 395) on Pop!_OS 24.04.
+
+- name: Install ROCm GPG key
+  become: true
+  ansible.builtin.get_url:
+    url: https://repo.radeon.com/rocm/rocm.gpg.key
+    dest: /etc/apt/keyrings/rocm.gpg
+    mode: "0644"
+  tags: [inference, system, rocm]
+
+- name: Add ROCm APT repository
+  become: true
+  ansible.builtin.apt_repository:
+    filename: rocm
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.3 noble main"
+    update_cache: true
+  tags: [inference, system, rocm]
+
+- name: Add AMDGPU APT repository
+  become: true
+  ansible.builtin.apt_repository:
+    filename: amdgpu
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/6.3/ubuntu noble main"
+    update_cache: true
+  tags: [inference, system, rocm]
+
+- name: Install ROCm packages
+  become: true
+  ansible.builtin.apt:
+    state: present
+    pkg:
+      - rocm-hip-libraries
+      - rocm-dev
+      - hip-dev
+      - rocm-llvm
+      - rocminfo
+      - rocm-smi-lib
+  tags: [inference, system, rocm]
+
+- name: Add user to render and video groups for GPU access
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups:
+      - render
+      - video
+    append: true
+  tags: [inference, system, rocm]
+
+- name: Configure ROCm kernel parameters in GRUB
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="{{ rocm_grub_cmdline }}"'
+    backup: true
+  notify: update-grub
+  tags: [inference, system, rocm]
+
+- name: Set HSA_OVERRIDE_GFX_VERSION for gfx1151 compatibility
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/profile.d/rocm-gfx-override.sh
+    content: |
+      # gfx1151 (Radeon 890M / Ryzen AI Max+ 395) — ROCm compatibility override.
+      # llama.cpp and some ROCm tools require the GFX version hint for RDNA4 iGPU.
+      export HSA_OVERRIDE_GFX_VERSION=11.0.1
+    mode: "0644"
+  tags: [inference, system, rocm]

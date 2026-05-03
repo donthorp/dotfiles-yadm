@@ -23,10 +23,10 @@ find -L "$BOOTSTRAP_D" -type f | sort | while IFS= read -r bootstrap; do
     fi
 done
 
-# Always run main playbook for base
+# Always run common play on bootstrap
 
 cd ~/.config/dotfiles
-ansible-playbook main.yml --tags base
+ansible-playbook main.yml --tags common -l $(hostname -s)
 cd -
 
 echo "======================================================"

@@ -7,7 +7,7 @@ roles:
     version: 07ce47c713069cb199a8933bfab925d1d6c76985
     name: babashka
 
+  # Renamed from 'gnome' to 'customize_gnome' to avoid shadowing roles/gnome/.
   - src: https://github.com/PeterMosmans/ansible-role-customize-gnome.git
     version: 5ca921ee1d8d68728e922d13038347d71b4a6a46
-    name: gnome
-
+    name: customize_gnome

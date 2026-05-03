@@ -1,0 +1,24 @@
+---
+# Inference node setup.
+# Composed of tagged blocks with clear dependencies:
+#   system  → ROCm driver layer (must run before inference software)
+#   inference → Ollama + Cockpit (depends on system)
+#   npu     → NPU path via Lemonade/FastFlowLM (experimental, off by default)
+
+- name: Include ROCm tasks
+  include_tasks: rocm.yml
+  when: inference_enable_rocm
+  tags: [inference, system, rocm]
+
+- name: Include Ollama tasks
+  include_tasks: ollama.yml
+  tags: [inference]
+
+- name: Include Cockpit tasks
+  include_tasks: cockpit.yml
+  tags: [inference, network]
+
+- name: Include NPU tasks
+  include_tasks: npu.yml
+  when: inference_enable_npu
+  tags: [inference, npu]

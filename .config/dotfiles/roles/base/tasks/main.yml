@@ -1,6 +1,13 @@
 ---
 # tasks file for base
 
+- name: Force apt to use IPv4
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/apt/apt.conf.d/99force-ipv4
+    content: 'Acquire::ForceIPv4 "true";'
+    mode: "0644"
+
 - name: Enable universe repository
   become: true
   ansible.builtin.apt_repository:
@@ -22,11 +29,18 @@
     repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
     update_cache: true
 
-- name: Install Docker GPG Key
+- name: Download Docker GPG Key
   become: true
-  ansible.builtin.shell:
-    cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor > /etc/apt/keyrings/docker.gpg
-  changed_when: false
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /tmp/docker.gpg.asc
+    mode: "0644"
+
+- name: Dearmor Docker GPG Key
+  become: true
+  ansible.builtin.command:
+    cmd: gpg --dearmor -o /etc/apt/keyrings/docker.gpg /tmp/docker.gpg.asc
+    creates: /etc/apt/keyrings/docker.gpg
 
 - name: Add Docker APT Repository
   become: true
@@ -56,6 +70,7 @@
       - gh
       - git-extras
       - gnupg
+      - htop
       - inetutils-traceroute
       - jq
       - libfuse2
@@ -75,25 +90,23 @@
     groups: docker
     append: true
 
-- name: Install Snaps
+- name: Install starship
   become: true
-  community.general.snap:
-    name:
-      - htop
-  tags: [base, snap]
-
-- name: Install Edge Snaps
-  community.general.snap:
-    channel: "edge"
-    name:
-      - starship
-  tags: [base, snap]
+  ansible.builtin.unarchive:
+    src: https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-musl.tar.gz
+    dest: /usr/local/bin
+    remote_src: true
+    creates: /usr/local/bin/starship
+  tags: base
 
 - name: Install Classic Snaps
-  community.general.snap:
-    name:
-      - espanso
-    classic: true
+  become: true
+  ansible.builtin.command:
+    cmd: snap install --classic {{ item }}
+    creates: /snap/{{ item }}
+  loop:
+    - espanso
+  when: install_espanso | default(true)
   tags: [base, snap]
 
 - name: Configure Flatpak Repo - Flathub

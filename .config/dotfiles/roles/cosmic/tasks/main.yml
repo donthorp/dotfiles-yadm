@@ -1,0 +1,37 @@
+---
+# COSMIC desktop configuration.
+# Runs on hosts in the 'cosmic' inventory group only.
+# Does NOT use gsettings, dconf, or any GNOME mechanism.
+# COSMIC config is stored in RON format under ~/.config/cosmic/ and app-specific dirs.
+
+- name: Create COSMIC config directories
+  become: false
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ cosmic_config_dir }}"
+    - "{{ cosmic_term_config_dir }}"
+  tags: cosmic
+
+- name: Deploy COSMIC Terminal font config
+  become: false
+  ansible.builtin.template:
+    src: cosmic-term-v1.ron.j2
+    dest: "{{ cosmic_term_config_dir }}/v1"
+    mode: "0644"
+    # force: false would preserve user customizations after first bootstrap;
+    # set to true to always enforce the managed config.
+    force: false
+  tags: cosmic
+
+# Wayland clipboard — COSMIC runs on Wayland; xclip requires XWayland.
+# wl-clipboard provides wl-copy / wl-paste as native Wayland alternatives.
+- name: Install Wayland clipboard tools
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    pkg:
+      - wl-clipboard
+  tags: cosmic
