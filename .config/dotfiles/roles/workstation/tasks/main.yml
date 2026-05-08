@@ -19,13 +19,12 @@
     pkg: mpg123
   when: install_mpg123
 
-- name: Install Discord
+- name: Install or remove Discord
   become: false
   community.general.flatpak:
     name: com.discordapp.Discord
     method: user
-    state: present
-  when: install_discord
+    state: "{{ install_discord | ternary('present', 'absent') }}"
   tags: flatpak
 
 - name: Configure and Install Wavebox
@@ -36,40 +35,36 @@
   include_tasks: ./roles/workstation/tasks/ulauncher.yml
   when: install_ulauncher
 
-- name: Install Obsidian
+- name: Install or remove Obsidian
   become: false
   community.general.flatpak:
     name: md.obsidian.Obsidian
     method: user
-    state: present
-  when: install_obsidian
+    state: "{{ install_obsidian | ternary('present', 'absent') }}"
   tags: flatpak
 
-- name: Install DBeaver Community
+- name: Install or remove DBeaver Community
   become: false
   community.general.flatpak:
     name: io.dbeaver.DBeaverCommunity
     method: user
-    state: present
-  when: install_dbeaver
+    state: "{{ install_dbeaver | ternary('present', 'absent') }}"
   tags: flatpak
 
-- name: Install VLC
+- name: Install or remove VLC
   become: false
   community.general.flatpak:
     name: org.videolan.VLC
     method: user
-    state: present
-  when: install_vlc
+    state: "{{ install_vlc | ternary('present', 'absent') }}"
   tags: flatpak
 
-- name: Install The Gimp
+- name: Install or remove GIMP
   become: false
   community.general.flatpak:
     name: org.gimp.GIMP
     method: user
-    state: present
-  when: install_gimp
+    state: "{{ install_gimp | ternary('present', 'absent') }}"
   tags: flatpak
 
 - name: Install Converseen for Image Conversion
@@ -79,13 +74,12 @@
     pkg: converseen
   when: install_converseen
 
-- name: Install PDF Arranger
+- name: Install or remove PDF Arranger
   become: false
   community.general.flatpak:
     name: com.github.jeromerobert.pdfarranger
     method: user
-    state: present
-  when: install_pdf_arranger
+    state: "{{ install_pdf_arranger | ternary('present', 'absent') }}"
   tags: flatpak
 
 - name: Install Parsec
