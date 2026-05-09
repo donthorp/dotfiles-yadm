@@ -80,6 +80,7 @@
       - libfuse2
       - lsb-release
       - needrestart
+      - network-manager
       - nfs-common
       - openssh-server
       - python3-pip
