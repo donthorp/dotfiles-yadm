@@ -1,9 +1,14 @@
+litellm_settings:
+  drop_params: true
+
 model_list:
 {% for model in litellm_ollama_models %}
   - model_name: {{ model }}
     litellm_params:
       model: ollama/{{ model }}
       api_base: http://127.0.0.1:{{ ollama_port }}
+    model_info:
+      supports_reasoning: false
 {% endfor %}
 {% if inference_enable_npu %}
 {% for model in litellm_lemonade_models %}
