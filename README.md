@@ -104,33 +104,9 @@ sudo tailscale up
 
 Authenticate via the URL printed in the terminal.
 
-### vedfolnir00 — update host vars after joining
+### vedfolnir00 — re-run playbook after joining
 
-Once vedfolnir00 is on the tailnet, get its IP and update the playbook vars so Ollama and Cockpit bind to the Tailscale interface:
-
-**1. Get the IP**
-
-```bash
-tailscale ip -4
-```
-
-**2. Set `tailscale_ip` in host vars**
-
-Edit `~/.config/dotfiles/inventory/host_vars/vedfolnir00.yml`:
-
-```yaml
-tailscale_ip: "100.x.y.z"   # replace with actual IP
-```
-
-**3. Commit and push**
-
-```bash
-yadm add ~/.config/dotfiles/inventory/host_vars/vedfolnir00.yml
-yadm commit -m "Set vedfolnir00 Tailscale IP"
-yadm push
-```
-
-**4. Re-run the playbook**
+Once vedfolnir00 is on the tailnet, re-run the playbook so Ollama and Cockpit bind to the Tailscale interface. The playbook auto-detects the IP via `tailscale ip -4`.
 
 ```bash
 bb install-inference 2>&1 | tee /tmp/ansible-run.log

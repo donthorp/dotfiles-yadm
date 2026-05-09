@@ -61,3 +61,22 @@
   changed_when: true
   no_log: true
   tags: [common, tailscale]
+
+- name: Get Tailscale IP
+  ansible.builtin.command: tailscale ip -4
+  register: _tailscale_ip
+  changed_when: false
+  failed_when: false
+  tags: [common, tailscale]
+
+- name: Set tailscale_ip fact
+  ansible.builtin.set_fact:
+    tailscale_ip: "{{ _tailscale_ip.stdout | trim }}"
+  when: _tailscale_ip.rc == 0 and _tailscale_ip.stdout | trim
+  tags: [common, tailscale]
+
+- name: Tailscale not joined
+  ansible.builtin.debug:
+    msg: "Tailscale is not joined. Run 'sudo tailscale up' to join the tailnet, then re-run this playbook."
+  when: _tailscale_ip.rc != 0 or not _tailscale_ip.stdout | trim
+  tags: [common, tailscale]

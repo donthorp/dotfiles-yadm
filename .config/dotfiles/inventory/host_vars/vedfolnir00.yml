@@ -2,12 +2,6 @@
 # vedfolnir00 — Framework Desktop, Ryzen AI Max+ 395, 128GB LPDDR5x
 # Location: CE193 | OS: Pop!_OS 24.04 COSMIC | Role: AI inference + CE193 workstation
 
-# Set once vedfolnir00 joins Tailscale:
-#   tailscale ip -4 vedfolnir00
-# ollama_listen_address and cockpit_bind_address in group_vars/inference.yml
-# derive from this automatically.
-tailscale_ip: ""
-
 # ROCm — gfx1151 (Radeon 890M iGPU), up to 120GB unified VRAM via TTM
 # sg_display=0 allows the iGPU to use system RAM beyond the display reservation.
 # Adjust the TTM VRAM limit in BIOS (UMA frame buffer) as well.
