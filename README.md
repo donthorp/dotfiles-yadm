@@ -93,3 +93,47 @@ If there is a conflict in `.bashrc` you **might** need to checkout .bashrc speci
 yadm checkout .bashrc
 yadm pull
 ```
+
+## Tailscale
+
+Tailscale is installed and `tailscaled` is started by bootstrap. If `tailscale_auth_key` is set in `~/.local/secrets/` the node joins the tailnet automatically. Otherwise, join manually after bootstrap:
+
+```bash
+sudo tailscale up
+```
+
+Authenticate via the URL printed in the terminal.
+
+### vedfolnir00 — update host vars after joining
+
+Once vedfolnir00 is on the tailnet, get its IP and update the playbook vars so Ollama and Cockpit bind to the Tailscale interface:
+
+**1. Get the IP**
+
+```bash
+tailscale ip -4
+```
+
+**2. Set `tailscale_ip` in host vars**
+
+Edit `~/.config/dotfiles/inventory/host_vars/vedfolnir00.yml`:
+
+```yaml
+tailscale_ip: "100.x.y.z"   # replace with actual IP
+```
+
+**3. Commit and push**
+
+```bash
+yadm add ~/.config/dotfiles/inventory/host_vars/vedfolnir00.yml
+yadm commit -m "Set vedfolnir00 Tailscale IP"
+yadm push
+```
+
+**4. Re-run the playbook**
+
+```bash
+bb install-inference 2>&1 | tee /tmp/ansible-run.log
+```
+
+> Run in a regular terminal — the playbook prompts for a sudo password.
