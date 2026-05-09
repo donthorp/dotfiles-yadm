@@ -23,8 +23,11 @@
   install-workstation {:doc "Install base + workstation packages on this machine"
                        :task (shell "bash -c 'ansible-playbook main.yml --tags common,workstation,gnome,cosmic -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
 
-  install-inference {:doc "Install inference stack on this node"
+  install-inference {:doc "Install base + inference stack on this node"
                      :task (shell "bash -c 'ansible-playbook main.yml --tags common,inference -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
+
+  install-inference-only {:doc "Re-apply inference role only (skips common)"
+                          :task (shell "bash -c 'ansible-playbook main.yml --tags inference -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
 
 ;; ── Test (requires Docker) ───────────────────────────────────────────────────
   ;; Only the common play (base + neovim roles) is exercised in Docker.
