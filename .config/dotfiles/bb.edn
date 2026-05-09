@@ -26,10 +26,7 @@
   install-inference {:doc "Install inference stack on this node"
                      :task (shell "bash -c 'ansible-playbook main.yml --tags common,inference -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
 
-  install-all {:doc "Run all applicable plays for this machine"
-               :task (shell "bash -c 'ansible-playbook main.yml -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
-
-  ;; ── Test (requires Docker) ───────────────────────────────────────────────────
+;; ── Test (requires Docker) ───────────────────────────────────────────────────
   ;; Only the common play (base + neovim roles) is exercised in Docker.
   ;; The workstation, gnome, and cosmic plays require a live desktop session.
   ;; The inference play requires ROCm-capable hardware.

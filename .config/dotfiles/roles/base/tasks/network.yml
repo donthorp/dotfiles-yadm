@@ -59,14 +59,22 @@
     state: present
   when: install_realtek_r8126 | default(false)
 
+- name: Check if r8126 DKMS module is built for current kernel
+  ansible.builtin.command: dkms status realtek-r8126
+  register: _dkms_status
+  changed_when: false
+  failed_when: false
+  when: install_realtek_r8126 | default(false)
+
 - name: Build r8126 DKMS module for current kernel
   become: true
   ansible.builtin.command:
     cmd: dkms autoinstall -k {{ ansible_kernel }}
-  register: dkms_result
-  changed_when: "'already installed' not in dkms_result.stdout"
+  changed_when: true
   failed_when: false
-  when: install_realtek_r8126 | default(false)
+  when:
+    - install_realtek_r8126 | default(false)
+    - ansible_kernel not in (_dkms_status.stdout | default(''))
 
 - name: Load r8126 kernel module
   become: true

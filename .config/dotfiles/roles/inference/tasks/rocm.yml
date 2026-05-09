@@ -9,22 +9,13 @@
     url: https://repo.radeon.com/rocm/rocm.gpg.key
     dest: /tmp/rocm.gpg.key
     mode: "0644"
-    force: true
   tags: [inference, system, rocm]
 
 - name: Dearmor ROCm GPG key
   become: true
   ansible.builtin.command:
     cmd: gpg --yes --dearmor -o /etc/apt/keyrings/rocm.gpg /tmp/rocm.gpg.key
-  changed_when: false
-  tags: [inference, system, rocm]
-
-- name: Add ROCm APT repository
-  become: true
-  ansible.builtin.apt_repository:
-    filename: rocm
-    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.3 noble main"
-    update_cache: true
+    creates: /etc/apt/keyrings/rocm.gpg
   tags: [inference, system, rocm]
 
 - name: Pin AMD ROCm repo over Ubuntu universe
@@ -36,6 +27,14 @@
       Pin: origin repo.radeon.com
       Pin-Priority: 600
     mode: "0644"
+  tags: [inference, system, rocm]
+
+- name: Add ROCm APT repository
+  become: true
+  ansible.builtin.apt_repository:
+    filename: rocm
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.3 noble main"
+    update_cache: true
   tags: [inference, system, rocm]
 
 - name: Add AMDGPU APT repository
