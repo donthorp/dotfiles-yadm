@@ -1,0 +1,16 @@
+model_list:
+{% for model in litellm_ollama_models %}
+  - model_name: {{ model }}
+    litellm_params:
+      model: ollama/{{ model }}
+      api_base: http://127.0.0.1:{{ ollama_port }}
+{% endfor %}
+{% if inference_enable_npu %}
+{% for model in litellm_lemonade_models %}
+  - model_name: {{ model }}
+    litellm_params:
+      model: openai/{{ model }}
+      api_base: http://127.0.0.1:{{ lemonade_port }}
+      api_key: lemonade
+{% endfor %}
+{% endif %}

@@ -184,3 +184,6 @@ fi
 
 export TF_CLI_CONFIG_FILE=$HOME/.config/terraform/terraformrc
 
+
+# opencode
+export PATH=/home/don/.opencode/bin:$PATH

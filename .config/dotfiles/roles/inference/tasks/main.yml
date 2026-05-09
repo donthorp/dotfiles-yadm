@@ -18,6 +18,10 @@
   include_tasks: cockpit.yml
   tags: [inference, network]
 
+- name: Include LiteLLM tasks
+  include_tasks: litellm.yml
+  tags: [inference, litellm]
+
 - name: Include NPU tasks
   include_tasks: npu.yml
   when: inference_enable_npu

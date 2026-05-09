@@ -14,5 +14,14 @@ ollama_port: 11434
 # Empty string binds to all interfaces; set to Tailscale IP to restrict.
 cockpit_bind_address: ""
 
+# LiteLLM proxy — Anthropic-format gateway for Claude Code clients on other nodes.
+# Listens on Tailscale IP; ollama/lemonade remain on localhost.
+litellm_listen_address: "127.0.0.1"  # override to Tailscale IP in host_vars
+litellm_port: 4000
+litellm_ollama_models:
+  - qwen2.5-coder
+lemonade_port: 13305
+litellm_lemonade_models: []
+
 # NPU (XDNA 3 via Lemonade + FastFlowLM) — off by default; experimental
 inference_enable_npu: false
