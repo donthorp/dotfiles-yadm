@@ -5,13 +5,13 @@
     - base
     - neovim
     - tailscale
+    - babashka
   tags: common
 
 - name: Workstation
   hosts: workstations
   become: false
   roles:
-    - babashka
     - workstation
   tags: workstation
 

@@ -14,17 +14,20 @@
 
   ;; ── Install ──────────────────────────────────────────────────────────────────
 
+  install {:doc "Install all applicable plays for this machine (driven from inventory)"
+           :task (shell "bash -c 'ansible-playbook main.yml -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
+
   install-common {:doc "Install common packages on this machine (base + neovim)"
-                  :task (shell "bash -c 'ansible-playbook main.yml --tags common -l $(hostname -s)'")}
+                  :task (shell "bash -c 'ansible-playbook main.yml --tags common -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
 
   install-workstation {:doc "Install base + workstation packages on this machine"
-                       :task (shell "bash -c 'ansible-playbook main.yml --tags common,workstation,gnome,cosmic -l $(hostname -s)'")}
+                       :task (shell "bash -c 'ansible-playbook main.yml --tags common,workstation,gnome,cosmic -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
 
   install-inference {:doc "Install inference stack on this node"
-                     :task (shell "bash -c 'ansible-playbook main.yml --tags common,inference -l $(hostname -s)'")}
+                     :task (shell "bash -c 'ansible-playbook main.yml --tags common,inference -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
 
   install-all {:doc "Run all applicable plays for this machine"
-               :task (shell "bash -c 'ansible-playbook main.yml -l $(hostname -s)'")}
+               :task (shell "bash -c 'ansible-playbook main.yml -l $(hostname -s) 2>&1 | tee /tmp/ansible-run.log'")}
 
   ;; ── Test (requires Docker) ───────────────────────────────────────────────────
   ;; Only the common play (base + neovim roles) is exercised in Docker.

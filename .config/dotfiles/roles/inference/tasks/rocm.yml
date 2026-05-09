@@ -3,12 +3,20 @@
 # This is the OS-level layer; inference software depends on it.
 # Target: gfx1151 (Radeon 890M iGPU in Ryzen AI Max+ 395) on Pop!_OS 24.04.
 
-- name: Install ROCm GPG key
+- name: Download ROCm GPG key
   become: true
   ansible.builtin.get_url:
     url: https://repo.radeon.com/rocm/rocm.gpg.key
-    dest: /etc/apt/keyrings/rocm.gpg
+    dest: /tmp/rocm.gpg.key
     mode: "0644"
+    force: true
+  tags: [inference, system, rocm]
+
+- name: Dearmor ROCm GPG key
+  become: true
+  ansible.builtin.command:
+    cmd: gpg --yes --dearmor -o /etc/apt/keyrings/rocm.gpg /tmp/rocm.gpg.key
+  changed_when: false
   tags: [inference, system, rocm]
 
 - name: Add ROCm APT repository
@@ -17,6 +25,17 @@
     filename: rocm
     repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.3 noble main"
     update_cache: true
+  tags: [inference, system, rocm]
+
+- name: Pin AMD ROCm repo over Ubuntu universe
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/rocm
+    content: |
+      Package: *
+      Pin: origin repo.radeon.com
+      Pin-Priority: 600
+    mode: "0644"
   tags: [inference, system, rocm]
 
 - name: Add AMDGPU APT repository
@@ -33,9 +52,6 @@
     state: present
     pkg:
       - rocm-hip-libraries
-      - rocm-dev
-      - hip-dev
-      - rocm-llvm
       - rocminfo
       - rocm-smi-lib
   tags: [inference, system, rocm]
