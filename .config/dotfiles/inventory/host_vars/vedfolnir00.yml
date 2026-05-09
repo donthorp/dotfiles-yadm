@@ -12,6 +12,9 @@ rocm_grub_cmdline: "quiet splash amdgpu.sg_display=0 amdgpu.gttsize=118784"
 tailscale_ip: "100.115.44.2"
 ollama_listen_address: "127.0.0.1"
 litellm_listen_address: "100.115.44.2"
+litellm_ollama_models:
+  - qwen2.5-coder
+  - gemma4
 
 # NPU (XDNA 3) — experimental; enable once Lemonade/FastFlowLM is validated
 inference_enable_npu: false
