@@ -26,6 +26,7 @@ done
 # Always run common play on bootstrap
 
 cd ~/.config/dotfiles
+ansible-galaxy install -r requirements.yml
 ansible-playbook main.yml --tags common -l $(hostname -s)
 cd -
 

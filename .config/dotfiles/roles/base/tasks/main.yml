@@ -79,8 +79,10 @@
       - nfs-common
       - openssh-server
       - python3-pip
+      - fontconfig
       - ripgrep
       - snapd
+      - unzip
   tags: base
 
 - name: Add current user to docker group
@@ -114,6 +116,7 @@
     name: flathub
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  when: install_flatpak | default(true)
   tags: flatpak
 
 # Font tasks from https://github.com/jahrik/ansible-nvim

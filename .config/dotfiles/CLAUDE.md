@@ -57,7 +57,6 @@ Then read `/tmp/ansible-run.log` to review results.
 
 ## Planned work
 
-- **vedfolnir00 COSMIC role:** `roles/cosmic/` exists and installs wl-clipboard + deploys COSMIC Terminal font config. The RON template at `roles/cosmic/templates/cosmic-term-v1.ron.j2` needs verification on a live COSMIC session before trusting its schema.
 - **vedfolnir00 Tailscale IPs:** `inventory/host_vars/vedfolnir00.yml` has `ollama_listen_address` and `cockpit_bind_address` set to `127.0.0.1`/empty. Update with the actual Tailscale IP once known.
 - **ROCm version pin:** `roles/inference/tasks/rocm.yml` targets ROCm 6.3 / noble. Update the repo URL when upgrading.
 - **NPU:** `inference_enable_npu: false` in vedfolnir00 host_vars. Enable once Lemonade/FastFlowLM is validated on gfx1151.

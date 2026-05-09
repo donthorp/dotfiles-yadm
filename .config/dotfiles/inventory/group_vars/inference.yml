@@ -15,3 +15,6 @@ cockpit_bind_address: "{{ tailscale_ip | default('') }}"
 
 # NPU (Lemonade + FastFlowLM) — experimental, off by default
 inference_enable_npu: false
+
+# Base role opt-outs for headless inference nodes
+install_flatpak: false
