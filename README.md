@@ -27,7 +27,7 @@ sudo hostnamectl set-hostname artemis01   # example
 - boros03 - Framework 13 AMD (Pop!_OS, GNOME) - 12 Nov 2025
 
 ### vedfolnir — inference desktops
-- vedfolnir00 - Framework Desktop, Ryzen AI Max+ 395 (Pop!_OS 24.04, COSMIC) - 2026
+- vedfolnir00 - Framework Desktop, Ryzen AI Max+ 395 (Ubuntu Server 24.04) - 2026
 
 ### retired
 - hermes01 - Development VM (hermes naming retired; use xx90–99 convention)

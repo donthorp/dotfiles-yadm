@@ -1,11 +1,12 @@
 ---
 # vedfolnir00 — Framework Desktop, Ryzen AI Max+ 395, 128GB LPDDR5x
-# Location: CE193 | OS: Pop!_OS 24.04 COSMIC | Role: AI inference + CE193 workstation
+# Location: CE193 | OS: Ubuntu Server 24.04 | Role: AI inference
 
-# ROCm — gfx1151 (Radeon 890M iGPU), up to 120GB unified VRAM via TTM
-# sg_display=0 allows the iGPU to use system RAM beyond the display reservation.
-# Adjust the TTM VRAM limit in BIOS (UMA frame buffer) as well.
-rocm_grub_cmdline: "quiet splash amdgpu.sg_display=0"
+# ROCm — gfx1151 (Radeon 890M iGPU), up to 116GB GTT via scatter-gather
+# sg_display=0: allows iGPU to use system RAM beyond the display reservation.
+# gttsize: sets the GTT (scatter-gather) pool in MB; defaults to half of RAM.
+#   116 GB (118784 MB) leaves ~9 GB guaranteed for the OS on this 128 GB system.
+rocm_grub_cmdline: "quiet splash amdgpu.sg_display=0 amdgpu.gttsize=118784"
 
 # NPU (XDNA 3) — experimental; enable once Lemonade/FastFlowLM is validated
 inference_enable_npu: false
