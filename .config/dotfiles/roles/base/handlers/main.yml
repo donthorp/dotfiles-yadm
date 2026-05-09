@@ -4,3 +4,13 @@
 - name: fc-cache
   become: false
   command: fc-cache -f ~/.local/share/fonts/
+
+- name: update-initramfs
+  become: true
+  ansible.builtin.command: update-initramfs -u
+
+- name: restart-networkd
+  become: true
+  ansible.builtin.systemd:
+    name: systemd-networkd
+    state: restarted

@@ -1,0 +1,96 @@
+---
+# RTL8126 DKMS driver — Framework Desktop ethernet (replaces broken in-kernel r8169)
+- name: Check if realtek-r8126-dkms is installed
+  ansible.builtin.command: dpkg-query -W -f='${Status}' realtek-r8126-dkms
+  register: r8126_installed
+  failed_when: false
+  changed_when: false
+  when: install_realtek_r8126 | default(false)
+
+- name: Fetch latest r8126-dkms release URL
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/awesometic/realtek-r8126-dkms/releases/latest
+    return_content: true
+  register: r8126_release
+  when:
+    - install_realtek_r8126 | default(false)
+    - r8126_installed.stdout is not defined or 'install ok installed' not in r8126_installed.stdout
+
+- name: Set r8126 deb URL fact
+  ansible.builtin.set_fact:
+    r8126_deb_url: "{{ r8126_release.json.assets | selectattr('name', 'match', '.*\\.deb$') | map(attribute='browser_download_url') | first }}"
+  when:
+    - install_realtek_r8126 | default(false)
+    - r8126_deb_url is not defined
+    - r8126_release is not skipped
+
+- name: Download r8126-dkms .deb
+  ansible.builtin.get_url:
+    url: "{{ r8126_deb_url }}"
+    dest: /tmp/r8126-dkms.deb
+    mode: "0644"
+  when:
+    - install_realtek_r8126 | default(false)
+    - r8126_deb_url is defined
+
+- name: Install r8126-dkms
+  become: true
+  ansible.builtin.apt:
+    deb: /tmp/r8126-dkms.deb
+    state: present
+  when:
+    - install_realtek_r8126 | default(false)
+    - r8126_deb_url is defined
+  notify: update-initramfs
+
+- name: Blacklist r8169 to prevent conflict with r8126
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/modprobe.d/blacklist-r8169.conf
+    content: "blacklist r8169\n"
+    mode: "0644"
+  when: install_realtek_r8126 | default(false)
+  notify: update-initramfs
+
+# systemd-networkd — ethernet primary (metric 100), wifi fallback (metric 600)
+- name: Configure systemd-networkd for ethernet
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/systemd/network/10-ethernet.network
+    mode: "0644"
+    content: |
+      [Match]
+      MACAddress={{ ethernet_mac }}
+
+      [Network]
+      DHCP=yes
+
+      [DHCP]
+      RouteMetric=100
+  when: ethernet_mac is defined
+  notify: restart-networkd
+
+- name: Configure systemd-networkd for wifi
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/systemd/network/20-wifi.network
+    mode: "0644"
+    content: |
+      [Match]
+      MACAddress={{ wifi_mac }}
+
+      [Network]
+      DHCP=yes
+
+      [DHCP]
+      RouteMetric=600
+  when: wifi_mac is defined
+  notify: restart-networkd
+
+- name: Enable systemd-networkd
+  become: true
+  ansible.builtin.systemd:
+    name: systemd-networkd
+    enabled: true
+    state: started
+  when: ethernet_mac is defined or wifi_mac is defined

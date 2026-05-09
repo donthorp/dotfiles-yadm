@@ -15,3 +15,8 @@ rocm_grub_cmdline: "quiet splash amdgpu.sg_display=0"
 
 # NPU (XDNA 3) — experimental; enable once Lemonade/FastFlowLM is validated
 inference_enable_npu: false
+
+# Network — RTL8126 ethernet (requires r8126 DKMS driver; r8169 must be blacklisted)
+ethernet_mac: "9c:bf:0d:01:ce:56"
+wifi_mac: "44:f7:9f:da:bd:a1"
+install_realtek_r8126: true

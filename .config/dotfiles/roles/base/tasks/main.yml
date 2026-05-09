@@ -1,6 +1,10 @@
 ---
 # tasks file for base
 
+- name: Network configuration
+  ansible.builtin.include_tasks: network.yml
+  tags: network
+
 - name: Force apt to use IPv4
   become: true
   ansible.builtin.copy:
