@@ -15,6 +15,8 @@ litellm_listen_address: "100.115.44.2"
 litellm_ollama_models:
   - qwen2.5-coder
   - gemma4
+  - qwen3
+  - qwen3:30b
 
 # NPU (XDNA 3) — experimental; enable once Lemonade/FastFlowLM is validated
 inference_enable_npu: false

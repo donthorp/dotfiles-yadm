@@ -13,6 +13,12 @@
         },
         "gemma4": {
           "name": "Gemma 4"
+        },
+        "qwen3": {
+          "name": "Qwen3"
+        },
+        "qwen3:30b": {
+          "name": "Qwen3 30B"
         }
       }
     }
