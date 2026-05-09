@@ -27,7 +27,8 @@ fi
 
 # Generate new github key pair for this machine
 
-KEYFILE=~/.ssh/`hostname`-github -N ""
+KEYFILE=~/.ssh/`hostname`-github
+PRIVKEYFILE=~/.ssh/`hostname`-github
 PUBKEYFILE=~/.ssh/`hostname`-github.pub
 CONFIGFILE=~/.ssh/config.d/github.com
 
@@ -47,7 +48,7 @@ if [ ! -f "$KEYFILE" ]; then
 	  User git
 	  Port 22
 	  Hostname github.com
-	  IdentityFile $PUBKEYFILE 
+	  IdentityFile $PRIVKEYFILE
 	  TCPKeepAlive yes
 	  IdentitiesOnly yes
 	  AddKeysToAgent yes
