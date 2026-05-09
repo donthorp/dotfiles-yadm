@@ -1,6 +1,27 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://100.115.44.2:11434/v1"
+      },
+      "models": {
+        "qwen3": {
+          "name": "Qwen3"
+        },
+        "qwen3:30b": {
+          "name": "Qwen3 30B"
+        },
+        "qwen2.5-coder": {
+          "name": "Qwen2.5 Coder"
+        },
+        "gemma4": {
+          "name": "Gemma 4"
+        }
+      }
+    },
     "litellm": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "LiteLLM",

@@ -10,7 +10,7 @@ rocm_grub_cmdline: "quiet splash amdgpu.sg_display=0 amdgpu.gttsize=118784"
 
 # LiteLLM — set to Tailscale IP once known
 tailscale_ip: "100.115.44.2"
-ollama_listen_address: "127.0.0.1"
+ollama_listen_address: "100.115.44.2"
 litellm_listen_address: "100.115.44.2"
 litellm_ollama_models:
   - qwen2.5-coder

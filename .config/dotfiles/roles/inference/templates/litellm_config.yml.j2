@@ -6,7 +6,7 @@ model_list:
   - model_name: {{ model }}
     litellm_params:
       model: ollama/{{ model }}
-      api_base: http://127.0.0.1:{{ ollama_port }}
+      api_base: http://{{ ollama_listen_address }}:{{ ollama_port }}
     model_info:
       supports_reasoning: false
 {% endfor %}
