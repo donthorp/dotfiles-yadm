@@ -10,10 +10,10 @@ This repo is managed with **yadm**, not plain git. The working tree is `$HOME`; 
 
 | Task | What it does |
 |---|---|
-| `bb install-common` | `ansible-playbook main.yml --tags common` (base + neovim) |
-| `bb install-workstation` | common + workstation + DE play for this machine |
-| `bb install-inference` | common + inference plays for this machine |
-| `bb install-all` | All applicable plays for this machine (no tag filter) |
+| `bb install` | All applicable plays for this machine (driven by inventory) |
+| `bb install-common` | Common play only (base + neovim) |
+| `bb install-workstation` | Workstation + DE plays only |
+| `bb install-inference` | Inference play only |
 | `bb test-build` | Build the Docker test image |
 | `bb test-check` | Dry-run of the common play in Docker |
 | `bb test-syntax` | Syntax-only check in Docker |
@@ -58,6 +58,5 @@ Then read `/tmp/ansible-run.log` to review results.
 ## Planned work
 
 - **HWE kernel selection:** vedfolnir00 (gfx1151/Strix Point) needs `linux-image-generic-hwe-24.04` (6.17) for ROCm render node support — stock 6.8 doesn't create `/dev/dri/renderD*`. Add logic to the inference role (or base role) to detect GPU architecture and install the HWE kernel automatically during `bb install-inference`.
-- **vedfolnir00 Tailscale IPs:** `inventory/host_vars/vedfolnir00.yml` has `ollama_listen_address` and `cockpit_bind_address` set to `127.0.0.1`/empty. Update with the actual Tailscale IP once known.
 - **ROCm version pin:** `roles/inference/tasks/rocm.yml` targets ROCm 6.3 / noble. Update the repo URL when upgrading.
 - **NPU:** `inference_enable_npu: false` in vedfolnir00 host_vars. Enable once Lemonade/FastFlowLM is validated on gfx1151.
