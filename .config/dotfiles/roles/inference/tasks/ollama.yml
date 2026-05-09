@@ -26,17 +26,28 @@
     mode: "0755"
   tags: inference
 
-- name: Configure Ollama bind address via systemd override
+- name: Configure Ollama systemd override
   become: true
   ansible.builtin.copy:
     dest: /etc/systemd/system/ollama.service.d/override.conf
     content: |
       [Service]
       Environment="OLLAMA_HOST={{ ollama_listen_address }}:{{ ollama_port }}"
+      Environment="OLLAMA_MODELS={{ ollama_models_dir }}"
     mode: "0644"
   notify:
     - reload systemd
     - restart ollama
+  tags: inference
+
+- name: Ensure ollama models directory is readable by service user
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "o+rx"
+  loop:
+    - "{{ ollama_models_dir | dirname | dirname }}"
+    - "{{ ollama_models_dir | dirname }}"
+    - "{{ ollama_models_dir }}"
   tags: inference
 
 - name: Enable and start Ollama service

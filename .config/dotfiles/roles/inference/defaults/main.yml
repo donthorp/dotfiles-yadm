@@ -9,6 +9,7 @@ rocm_grub_cmdline: "quiet splash amdgpu.sg_display=0"
 # Ollama
 ollama_listen_address: "127.0.0.1"
 ollama_port: 11434
+ollama_models_dir: "{{ ansible_env.HOME }}/.ollama/models"
 
 # Cockpit
 # Empty string binds to all interfaces; set to Tailscale IP to restrict.
