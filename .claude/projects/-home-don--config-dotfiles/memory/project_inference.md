@@ -1,13 +1,19 @@
 ---
-name: Inference node support — planned next step
-description: Inventory has inference group stub; no play or role exists yet
+name: Inference node — vedfolnir00
+description: vedfolnir00 is live; inference role exists with ollama, ROCm, LiteLLM, cockpit, NPU tasks
 type: project
-originSessionId: acc21912-1bd5-49fb-ba5e-cf6aa417e661
+originSessionId: db8085c4-ea8e-490d-9343-0845db0377ea
 ---
-`inventory/hosts.yml` has an `inference` group with hosts commented out, ready to fill in real GPU box details.
+vedfolnir00 (Framework Desktop, Ryzen AI Max+ 395, 128GB) is the inference node.
+Tailscale IP: `100.115.44.2`
 
-`main.yml` only has plays for `workstations`. An inference play targeting the `inference` group still needs to be written, along with any inference-specific roles (e.g., CUDA, GPU drivers, ML tooling).
+Inference role is implemented with:
+- ROCm (gfx1151, sg_display=0, gttsize=118784)
+- Ollama (listens on 127.0.0.1:11434 locally; also reachable on 100.115.44.2:11434 via Tailscale)
+- LiteLLM proxy (listens on 100.115.44.2:4000 — bridges Anthropic API format to local ollama/lemonade)
+- Cockpit
+- NPU via Lemonade (disabled pending gfx1151 validation)
 
-**Why:** The branch `claude/review-ansible-config-tZRle` established the inventory scaffold and got the test harness working. Inference node provisioning is explicitly the next step.
+**Why:** LiteLLM is needed so Claude Code on other nodes (e.g. boros03) can point ANTHROPIC_BASE_URL at vedfolnir00 and use local qwen models.
 
-**How to apply:** When starting inference node work, add real hosts to `inventory/hosts.yml` under `inference`, write an inference play in `main.yml`, and create any needed roles.
+**How to apply:** From boros03: `ANTHROPIC_BASE_URL=http://100.115.44.2:4000 claude`. vedfolnir00 Tailscale IP is 100.115.44.2 — don't ask the user for it again.

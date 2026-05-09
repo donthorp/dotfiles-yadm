@@ -16,7 +16,7 @@ Each machine class reserves the **90–99 suffix range** for test/development ma
 |---|---|---|---|
 | artemis | Linux desktop workstations | artemis01–artemis89 | artemis90–artemis99 |
 | boros | Linux laptop workstations | boros01–boros89 | boros90–boros99 |
-| vedfolnir | Desktop inference nodes | vedfolnir00–vedfolnir89 | vedfolnir90–vedfolnir99 |
+| vedfolnir | Inference nodes (Ubuntu, for ROCm/Lemonade compatibility) | vedfolnir00–vedfolnir89 | vedfolnir90–vedfolnir99 |
 
 ## Notes
 
