@@ -15,23 +15,25 @@
       "Bash(apt-cache show *)",
       "Bash(dpkg -l)",
       "Bash(ollama list *)",
-      "Bash(ss -tlnp *)",
+      "Bash(curl -s http://127.0.0.1:11434/v1/models)",
+      "Bash(curl -s http://100.115.44.2:11434/v1/models)",
       "Bash(systemctl is-active *)",
       "Bash(systemctl is-enabled *)",
       "Bash(systemctl show *)",
-      "Bash(curl -s http://127.0.0.1:11434/v1/models)",
-      "Bash(curl -s http://100.115.44.2:11434/v1/models)",
       "Bash(python3 -m json.tool)",
+      "Bash(awk '{print $2}')",
+      "Bash(xargs '-I{}' sh -c ' *)",
+      "Bash(starship --version)",
       "Read(//dev/**)",
       "Read(//etc/systemd/system/**)",
       "Read(//opt/**)",
-      "Read(//tmp/*.log)",
       "Read(//home/don/.config/opencode/**)",
+      "Read(//home/don/.local/bin/**)",
       "WebSearch",
       "WebFetch(domain:ryzenai.docs.amd.com)",
       "WebFetch(domain:docs.ollama.com)",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:opencode.ai)"
+      "WebFetch(domain:opencode.ai)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
