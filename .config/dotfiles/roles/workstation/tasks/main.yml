@@ -12,6 +12,12 @@
     - ppa:inkscape.dev/stable
     - ppa:agornostal/ulauncher
 
+- name: Install python3-venv
+  become: true
+  ansible.builtin.apt:
+    state: present
+    pkg: python3-venv
+
 - name: Install mpg123
   become: true
   ansible.builtin.apt:
