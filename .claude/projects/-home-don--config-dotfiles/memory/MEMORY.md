@@ -6,3 +6,4 @@
 - [Inference nodes planned](project_inference.md) — inventory stub exists, no play/role yet; next work item
 - [Naming conventions](project_naming_convention.md) — machine classes (artemis, boros, vedfolnir), suffix 90-99 = test/dev
 - [Always use yadm, never git](feedback_yadm.md) — plain `git` fails in this repo; always use `yadm` for all git operations
+- [Check host before SSH](feedback_check_hostname.md) — check current hostname before SSH; run locally if already on the target host

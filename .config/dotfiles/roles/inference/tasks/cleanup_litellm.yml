@@ -1,0 +1,33 @@
+---
+# One-time removal of LiteLLM proxy (replaced by direct Ollama access on Tailscale IP).
+
+- name: Stop and disable LiteLLM service
+  become: true
+  ansible.builtin.systemd:
+    name: litellm
+    state: stopped
+    enabled: false
+  failed_when: false
+  tags: [inference]
+
+- name: Remove LiteLLM systemd service file
+  become: true
+  ansible.builtin.file:
+    path: /etc/systemd/system/litellm.service
+    state: absent
+  notify: reload systemd
+  tags: [inference]
+
+- name: Remove LiteLLM virtualenv
+  become: true
+  ansible.builtin.file:
+    path: /opt/litellm
+    state: absent
+  tags: [inference]
+
+- name: Remove LiteLLM config directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/litellm
+    state: absent
+  tags: [inference]

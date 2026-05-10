@@ -5,6 +5,10 @@
 #   inference → Ollama + Cockpit (depends on system)
 #   npu     → NPU path via Lemonade/FastFlowLM (experimental, off by default)
 
+- name: Include LiteLLM cleanup tasks
+  include_tasks: cleanup_litellm.yml
+  tags: [inference]
+
 - name: Include ROCm tasks
   include_tasks: rocm.yml
   when: inference_enable_rocm
@@ -17,10 +21,6 @@
 - name: Include Cockpit tasks
   include_tasks: cockpit.yml
   tags: [inference, network]
-
-- name: Include LiteLLM tasks
-  include_tasks: litellm.yml
-  tags: [inference, litellm]
 
 - name: Include NPU tasks
   include_tasks: npu.yml

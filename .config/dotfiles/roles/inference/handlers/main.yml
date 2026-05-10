@@ -14,9 +14,3 @@
   ansible.builtin.systemd:
     name: ollama
     state: restarted
-
-- name: restart litellm
-  become: true
-  ansible.builtin.systemd:
-    name: litellm
-    state: restarted
