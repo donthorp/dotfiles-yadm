@@ -1,13 +1,13 @@
 {
+  "permissions": {
+    "allow": [
+      "Read(/tmp/ansible-run.log)"
+    ]
+  },
   "model": "sonnet",
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
-  "theme": "light",
-  "permissions": {
-    "allow": [
-      "Read(/tmp/ansible-run.log)"
-    ]
-  }
+  "theme": "auto"
 }
