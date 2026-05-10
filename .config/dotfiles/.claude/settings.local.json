@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ansible-galaxy role *)",
+      "Bash(yadm diff *)",
+      "Bash(yadm log *)",
+      "Bash(yadm status *)",
+      "Bash(yadm stash *)",
+      "Bash(tailscale status *)",
+      "Bash(rocm-smi)",
+      "Bash(lspci)",
+      "Bash(lsmod)",
+      "Bash(dmesg)",
+      "Bash(apt-cache search *)",
+      "Bash(apt-cache show *)",
+      "Bash(dpkg -l)",
+      "Bash(ollama list *)",
+      "Bash(ss -tlnp *)",
+      "Bash(systemctl is-active *)",
+      "Bash(systemctl is-enabled *)",
+      "Bash(systemctl show *)",
+      "Bash(curl -s http://127.0.0.1:11434/v1/models)",
+      "Bash(curl -s http://100.115.44.2:11434/v1/models)",
+      "Bash(python3 -m json.tool)",
+      "Read(//dev/**)",
+      "Read(//etc/systemd/system/**)",
+      "Read(//opt/**)",
+      "Read(//tmp/*.log)",
+      "Read(//home/don/.config/opencode/**)",
+      "WebSearch",
+      "WebFetch(domain:ryzenai.docs.amd.com)",
+      "WebFetch(domain:docs.ollama.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:opencode.ai)"
+    ]
+  }
+}
