@@ -81,6 +81,8 @@
     method: user
     state: "{{ install_pdf_arranger | ternary('present', 'absent') }}"
   tags: flatpak
+  register: _pdf_arranger
+  failed_when: _pdf_arranger.failed and install_pdf_arranger
 
 - name: Install Parsec
   become: true
