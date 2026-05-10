@@ -158,6 +158,9 @@ fi
 # Initialize Starship
 eval "$(starship init bash)"
 
+# Keep yadm remote cache fresh for prompt indicator
+yadm fetch --quiet > /dev/null 2>&1 &
+
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
