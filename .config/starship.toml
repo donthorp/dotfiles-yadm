@@ -28,3 +28,9 @@ deleted = "🗑"
 format = '[-- REBOOT REQUIRED --]($style)'
 style = 'bold fg:#FFFFFF bg:bright-red'
 when = 'test -f /var/run/reboot-required'
+
+[custom.yadm_status]
+format = '[ yadm: $output ]($style) '
+style = 'bold fg:#FFFFFF bg:#00CC00'
+command = 'yadm-status'
+when = 'yadm-status'

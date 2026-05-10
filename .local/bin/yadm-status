@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Prints yadm sync status; exits 0 if something to report, 1 if clean.
+REPO="$HOME/.local/share/yadm/repo.git"
+
+dirty=$(git --git-dir="$REPO" --work-tree="$HOME" diff --name-only HEAD 2>/dev/null | wc -l)
+dirty=${dirty// /}
+dirty=${dirty:-0}
+
+ahead=$(git --git-dir="$REPO" rev-list --count @{u}..HEAD 2>/dev/null)
+ahead=${ahead:-0}
+
+behind=$(git --git-dir="$REPO" rev-list --count HEAD..@{u} 2>/dev/null)
+behind=${behind:-0}
+
+[ "$dirty" -eq 0 ] && [ "$ahead" -eq 0 ] && [ "$behind" -eq 0 ] && exit 1
+
+parts=""
+[ "$dirty"  -gt 0 ] && parts="${dirty}M"
+[ "$ahead"  -gt 0 ] && parts="$parts ${ahead}↑"
+[ "$behind" -gt 0 ] && parts="$parts ${behind}↓"
+echo "${parts# }"
