@@ -33,7 +33,8 @@
       "WebFetch(domain:ryzenai.docs.amd.com)",
       "WebFetch(domain:docs.ollama.com)",
       "WebFetch(domain:opencode.ai)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(systemctl status *)"
     ]
   }
 }
