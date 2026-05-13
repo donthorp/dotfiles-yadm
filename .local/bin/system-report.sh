@@ -94,6 +94,14 @@ run_or "tuned active profile" "tuned not installed" tuned-adm active
 run "CPU frequency governor" bash -c 'cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2>/dev/null || echo "cpufreq governor not readable"'
 
 # ---------------------------------------------------------------------------
+echo "## Memory by Process (>100 MB total RSS)"
+echo
+
+run "Aggregated RSS" bash -c 'ps -eo comm,rss | awk '\''NR>1 {rss[$1]+=$2; cnt[$1]++}
+  END {for (p in rss) if (rss[p]>102400)
+    printf "%s: %.1f GB (%d procs)\n", p, rss[p]/1048576, cnt[p]}'\'' | sort -t: -k2 -rn'
+
+# ---------------------------------------------------------------------------
 echo "## Running Services (selected)"
 echo
 
