@@ -2,6 +2,11 @@
 # Collects a hardware/software snapshot of the local machine and prints markdown to stdout.
 # Usage: sudo system-report.sh [> output.md]
 
+if [[ $EUID -ne 0 ]]; then
+    echo "ERROR: run as root: sudo system-report.sh" >&2
+    exit 1
+fi
+
 run() {
     local label="$1"; shift
     echo "### $label"
