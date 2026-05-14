@@ -33,6 +33,33 @@
     state: "{{ install_discord | ternary('present', 'absent') }}"
   tags: flatpak
 
+# The May 2026 Flatpak refactor changed Discord's startup script to call
+# updater_bootstrap when the 'Discord' symlink fails an -x check. The old
+# startup script created an absolute symlink pointing into $HOME, which resolves
+# on the host but is inaccessible inside the Flatpak sandbox (Discord's
+# filesystems= does not include $HOME). Ensure the symlink is relative so the
+# sandbox -x check passes and updater_bootstrap is not invoked.
+- name: Find latest Discord app directory
+  become: false
+  ansible.builtin.find:
+    paths: "{{ ansible_user_dir }}/.var/app/com.discordapp.Discord/config/discord"
+    patterns: "app-1.*"
+    file_type: directory
+  register: _discord_app_dirs
+  when: install_discord
+  tags: flatpak
+
+- name: Fix Discord symlink to relative path for Flatpak sandbox compatibility
+  become: false
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.var/app/com.discordapp.Discord/config/discord/Discord"
+    src: "{{ (_discord_app_dirs.files | sort(attribute='mtime') | last).path | basename }}/Discord"
+    state: link
+    force: true
+    follow: false
+  when: install_discord and (_discord_app_dirs.files | default([]) | length) > 0
+  tags: flatpak
+
 - name: Configure and Install Wavebox
   include_tasks: ./roles/workstation/tasks/wavebox.yml
   when: install_wavebox
